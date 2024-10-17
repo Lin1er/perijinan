@@ -1,65 +1,54 @@
 <x-guest-layout>
-    <div class="min-h-screen flex flex-col">
-        <header class="bg-green-500 p-4">
-            <nav class="container mx-auto flex justify-between items-center">
-                <div>
-                    <a href="/" class="text-white font-bold text-xl">Aplikasi Perizinan Pulang</a>
+    <div class="min-h-screen bg-local bg-no-repeat bg-cover bg-center" style="background-image: url('/images/iclt_gerbang.jpeg')">
+        <div class="backdrop-blur-sm bg-white/30 w-screen h-screen flex flex-col ">
+            <!-- Header -->
+            <header class="flex justify-between items-center p-5 bg-gray-300 bg-opacity-70 shadow-lg">
+                <h1 class="text-2xl font-bold text-gray-800">Aplikasi Perizinan<br/>Siswa</h1>
+                <div class="space-x-4">
+                    <img src="logos/app.svg" alt="app">
                 </div>
-                <div>
-                    @auth
-                        <a href="/pengajuan" class="text-white font-semibold hover:underline">
-                            Pengajuan
-                        </a>
-                    @else
-                        @if (Route::has('login'))
-                            <a href="{{ route('login') }}" class="text-white font-semibold mr-4 hover:underline">
-                                Login
-                            </a>
-                        @endif
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-white font-semibold hover:underline">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </div>
-            </nav>
-        </header>
+            </header>
 
-        <main class="flex-grow container mx-auto mt-12 text-center">
-            <h1 class="text-4xl font-bold text-gray-800">Selamat Datang di Aplikasi Perizinan Pulang</h1>
-            <p class="mt-4 text-lg text-gray-600">Aplikasi ini mempermudah proses pengajuan izin pulang untuk anak asrama.</p>
+            <!-- Main Content -->
+            <div class="flex-grow flex items-center justify-center p-5">
+                <x-authentication-card class="bg-transparent p-8 rounded-lg shadow-none">
+                    <x-slot name="logo">
+                        <x-authentication-card-logo />
+                    </x-slot>
 
-            <div class="mt-8 flex flex-col gap-4">
-                @auth
-                    <a href="/pengajuan" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Ajukan Izin Pulang
-                    </a>
-                    <a href="/status-pengajuan" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Status Pengajuan
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" x-data>
-                        @csrf
+                    <x-slot name="description">
+                        <div class="flex flex-col gap-7">
+                            <h2 class="text-center text-3xl font-bold mb-10 text-black">Selamat Datang di Aplikasi</h2>
+                            <!-- Buttons -->
+                            <div class="flex flex-col justify-center gap-4">
+                                <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Login</a>
+                                <a href="{{ route('register') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Register</a>
+                            </div>
 
-                        <button type="submit"
-                         class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded text-white"
-                        >
-                            Log out
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Register
-                    </a>
-                @endauth
+                        </div>
+                    </x-slot>
+
+                    <x-slot name="footer">
+                        <p class="text-sm">MAN Insan Cendekia Lampung Timur</p>
+                        <div class="flex flex-row justify-center gap-3 mt-3">
+                            <img src="logos/facebook.svg" alt="">
+                            <img src="logos/google.svg" alt="">
+                        </div>
+                    </x-slot>
+                </x-authentication-card>
             </div>
-        </main>
 
-        <footer class="bg-gray-800 p-4 text-center text-white">
-            &copy; 2024 Aplikasi Perizinan Pulang. All rights reserved.
-        </footer>
+            {{-- Footer content --}}
+            <div class="flex flex-row justify-between p-2">
+                <div class="flex flex-col items-start">
+                    <img src="logos/ester.svg" alt="Estersena">
+                    <p>Created By: Estersena</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <img src="logos/faq.svg" alt="FAQ">
+                    <p>Frequental Ask Question</p>
+                </div>
+            </div>
+        </div>
     </div>
 </x-guest-layout>
