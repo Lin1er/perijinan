@@ -1,5 +1,5 @@
 <x-app-layout>
     <h1>
-        pengajuan kontol
+        pengajuan apa ya?
     </h1>
 </x-app-layout>
