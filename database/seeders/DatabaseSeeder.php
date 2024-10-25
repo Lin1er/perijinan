@@ -30,8 +30,7 @@ class DatabaseSeeder extends Seeder
 
         // Memberikan izin ke peran masing-masing
         $roleOrangtua->givePermissionTo('mengajukan izin');
-        $roleGuru->givePermissionTo('verifikasi izin');
-        $roleGuru->givePermissionTo('akses admin');
+        $roleGuru->givePermissionTo(['verifikasi izin','akses_ admin']);
         $roleSatpam->givePermissionTo(['validasi jemput', 'validasi kembali']);
 
         // Membuat user percobaan untuk Satpam dan Guru
@@ -40,18 +39,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'orangtua@example.com',
             'password' => 'orangtua', // Ganti dengan password yang aman
         ]);
+        $orangtua->assignRole('orangtua');
 
         $guru = User::create([
             'name' => 'Guru Test',
             'email' => 'guru@example.com',
             'password' => 'guru', // Ganti dengan password yang aman
         ]);
+        $guru->assignRole('guru');
 
         $satpam = User::create([
             'name' => 'Satpam Test',
             'email' => 'satpam@example.com',
             'password' => 'satpam', // Ganti dengan password yang aman
         ]);
+        $satpam->assignRole('satpam');
 
         User::create([
             'name' => 'Admin',
@@ -59,11 +61,8 @@ class DatabaseSeeder extends Seeder
             'password' => '123', // Ganti dengan password yang aman
         ]);
 
-        // Assign role ke user
-        $guru->assignRole('guru');
-        $satpam->assignRole('satpam');
-        $orangtua->assignROle('orangtua');
-        
+
+
         Ijin::factory()->count(10)->create();
     }
 }
