@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IjinController;
 
@@ -22,6 +23,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+Route::middleware(['auth', 'can:akses admin'])->group(function(){
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 });
 
 Route::get('/ijin/create', [IjinController::class, 'create'])->name('ijin.create');
