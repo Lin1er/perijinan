@@ -49,7 +49,7 @@ class IjinController extends Controller
         }
 
         $ijin = new Ijin([
-            'owner_id' => auth()->user()->id,
+            'user_id' => auth()->user()->id,
             'student_id' => $request->student_id,
             'class' => $request->class,
             'reason' => $request->reason,

@@ -11,7 +11,7 @@ class ijin extends Model
 
     protected $fillable = [
         'id',
-        'owner_id',
+        'user_id',
         'student_id',
         'class',
         'reason',
