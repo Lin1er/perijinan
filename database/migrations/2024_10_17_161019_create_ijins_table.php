@@ -16,13 +16,13 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()->onDelete('cascade');  // Foreign key ke students
             $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Foreign key ke users
             $table->string('class');
+            $table->string('medic_attachment_link')->nullable(); // bukti surat izin medic
             $table->string('reason');
             $table->string('attachment_link')->nullable(); // bukti siswa telah keluar
-            $table->date('date_out');
-            $table->date('date_in');
+            $table->date('date_return');
+            $table->date('date_pick');
             $table->string('verify_status')->default('0');
             $table->dateTime('returned_at')->nullable();  //siswa akan kembali pada tanggal sekian
-            $table->integer('late_in_minutes')->nullable(); // waktu terlambat(menit)
             $table->string('return_attachment_link')->nullable();  //bukti siswa telah kembali
             $table->string('status')->default('0');
             $table->timestamps();

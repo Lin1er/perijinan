@@ -16,8 +16,11 @@ class ijin extends Model
         'class',
         'reason',
         'attachment_link',
-        'date_in',
-        'date_out',
+        'date_pick',
+        'date_return',
+        'returned_at',
+        'medic_attachment_link',
+        'return_attachment_link',
     ];
 
     /**

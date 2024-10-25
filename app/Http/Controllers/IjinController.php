@@ -37,8 +37,10 @@ class IjinController extends Controller
             'class' => 'required|string',
             'reason' => 'required|string',
             'attachment' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'date_in' => 'required|date',
-            'date_out' => 'required|date',
+            'medic_attachment'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'return_attachment'=> 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'date_pick' => 'required|date',
+            'date_return' => 'required|date',
         ]);
 
         // Menyimpan file gambar
@@ -47,17 +49,33 @@ class IjinController extends Controller
             $file = $request->file('attachment');
             $filePath = $file->store('attachments', 'public'); // Simpan di folder `storage/app/public/attachments`
         }
+        // Menyimpan file medic_attachment
+        $medicAttachmentLink = null;
+        if ($request->hasFile('medic_attachment')) {
+            $file = $request->file('medic_attachment');
+            $medicAttachmentLink = $file->store('medic_attachments', 'public'); // Simpan di folder `storage/app/public/attachments`
+        }
+
+        // Menyimpan file return_attachment
+        $returnAttachmentLink = null;
+        if ($request->hasFile('return_attachment')) {
+            $file = $request->file('return_attachment');
+            $returnAttachmentLink = $file->store('return_attachments', 'public'); // Simpan di folder `storage/app/public/attachments`
+        }
 
         $ijin = new Ijin([
             'user_id' => auth()->user()->id,
             'student_id' => $request->student_id,
             'class' => $request->class,
             'reason' => $request->reason,
-            'attachment_link' => $filePath, // Simpan link file
-            'date_in' => $request->date_in,
-            'date_out' => $request->date_out,
+            'attachment_link' => $filePath, // Simpan link file bukti keluar
+            'medic_attachment_link' => $medicAttachmentLink, // Simpan link file bukti surat medis
+            'return_attachment_link' => $returnAttachmentLink, // Simpan link file bukti kembali
+            'date_pick' => $request->date_pick,
+            'date_return' => $request->date_return,
             'verify_status' => '0',
             'status' => '0',
+
         ]);
 
         // dd($ijin);

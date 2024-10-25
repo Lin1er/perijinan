@@ -27,10 +27,13 @@ class IjinFactory extends Factory
             'class' => $this->faker->randomElement(['10', '11', '12']),
             'reason' => $this->faker->sentence(),
             'attachment_link' => $this->faker->optional()->url(),
-            'date_in' => $this->faker->date(),
-            'date_out' => $this->faker->date(),
+            'medic_attachment_link' => $this->faker->optional()->url(),
+            'return_attachment_link' => $this->faker->optional()->url(),
+            'date_pick' => $this->faker->date(),
+            'date_return' => $this->faker->date(),
             'verify_status' => $this->faker->randomElement(['0', '1']),
             'status' => $this->faker->randomElement(['0', '1']),
+            'returned_at'=> $this->faker->date(),
         ];
     }
 }
