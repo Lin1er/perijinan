@@ -11,7 +11,7 @@
 
             <!-- Main Content -->
             <div class="flex-grow flex items-center justify-center p-5">
-                <x-authentication-card class="bg-transparent p-8 rounded-lg shadow-none">
+                <x-authentication-card-sec class="bg-transparent p-8 rounded-lg shadow-none">
                     <x-slot name="logo">
                         <x-authentication-card-logo />
                     </x-slot>
@@ -35,7 +35,7 @@
                             <img src="logos/google.svg" alt="">
                         </div>
                     </x-slot>
-                </x-authentication-card>
+                </x-authentication-card-sec>
             </div>
 
             {{-- Footer content --}}

@@ -11,9 +11,10 @@
 
             <!-- Main Content -->
             <div class="flex-grow flex items-center justify-center">
-                <x-authentication-card class="bg-transparent px-8 rounded-lg shadow-none">
+                <x-authentication-card-sec class="bg-transparent px-8 rounded-lg shadow-none">
                     <x-slot name="logo">
-                        <x-authentication-card-logo />
+                        {{-- <x-authentication-card-logo /> --}}
+                        <h1 class="">Buat Akun</h1>
                     </x-slot>
 
                     <x-slot name="description">
@@ -84,17 +85,17 @@
                     </x-slot>
 
                     <x-slot name="footer">
-                        <p class="text-sm">MAN Insan Cendekia Lampung Timur</p>
+                        <p class="text-sm mb-3">MAN Insan Cendekia Lampung Timur</p>
                         <div class="flex flex-row justify-center gap-3">
                             <img src="logos/facebook.svg" alt="">
                             <img src="logos/google.svg" alt="">
                         </div>
                     </x-slot>
-                </x-authentication-card>
+                </x-authentication-card-sec>
             </div>
 
             {{-- Footer content --}}
-            <div class="flex flex-grow flex-row justify-between p-2">
+            <div class="flex flex-row justify-between p-2">
                 <div class="flex flex-col items-start">
                     <img src="logos/ester.svg" alt="Estersena">
                     <p>Created By: Estersena</p>

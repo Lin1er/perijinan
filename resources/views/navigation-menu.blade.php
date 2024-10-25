@@ -8,6 +8,7 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
+                    <h1 class="p-2 font-bold text-lg">Aplikasi Perizinan<br>siswa</h1>
                 </div>
 
                 <!-- Navigation Links -->
