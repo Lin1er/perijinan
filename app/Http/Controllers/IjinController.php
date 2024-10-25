@@ -23,7 +23,7 @@ class IjinController extends Controller
     public function create()
     {
         $students = Student::all();
-        return view('create-ijin', compact('students'));
+        return view('ijin.create', compact('students'));
     }
 
     /**
@@ -91,7 +91,11 @@ class IjinController extends Controller
      */
     public function show(Ijin $ijin)
     {
-        // Implementasi di sini jika perlu
+        // Ambil data student terkait dengan izin ini
+        $student = $ijin->student;
+    
+        // Kirim data izin dan student ke tampilan
+        return view('ijin.show', compact('ijin', 'student'));
     }
 
     /**

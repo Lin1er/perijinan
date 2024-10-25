@@ -12,8 +12,8 @@
         <x-dashboard-table>
             <!-- Isi tabel -->
             @foreach ($ijins as $ijin)
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  dark:text-white">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer" onclick="window.location='{{ route('ijin.show', $ijin->id) }}'">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                         {{ $ijin->student->username }}
                     </th>
                     <td class="px-6 py-4">
@@ -23,11 +23,10 @@
                         {{ $ijin->reason }}
                     </td>
                     <td class="px-6 py-4">
-                        Verified
+                        {{ $ijin->verify_status == '1' ? 'Verified' : 'Pending' }}
                     </td>
                 </tr>
             @endforeach
         </x-dashboard-table>
-
     </main>
 </x-app-layout>
