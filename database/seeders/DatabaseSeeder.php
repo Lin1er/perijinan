@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ijin;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -49,9 +51,19 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'), // Ganti dengan password yang aman
         ]);
 
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@localhost.com',
+            'password' => '12345678', // Ganti dengan password yang aman
+        ]);
+
         // Assign role ke user
         $guru->assignRole('guru');
         $satpam->assignRole('satpam');
         $orangtua->assignROle('orangtua');
+
+        Student::factory()->count(50)->create();
+        
+        Ijin::factory()->count(10)->create();
     }
 }
