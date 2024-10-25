@@ -102,7 +102,7 @@
                 </div>
                 <div class="flex flex-col items-end">
                     <img src="logos/faq.svg" alt="FAQ">
-                    <p>Frequental Ask Question</p>
+                    <p>FAQ</p>
                 </div>
             </div>
         </div>
