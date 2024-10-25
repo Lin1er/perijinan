@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $roleOrangtua = Role::create(['name' => 'orangtua']);
         $roleGuru = Role::create(['name' => 'guru']);
         $roleSatpam = Role::create(['name' => 'satpam']);
+        $rolesuperAdmin = Role::create(['name'=> 'super-admin']);
 
         // Membuat izin
         Permission::create(['name' => 'mengajukan izin']);
@@ -54,6 +55,13 @@ class DatabaseSeeder extends Seeder
             'password' => 'satpam', // Ganti dengan password yang aman
         ]);
         $satpam->assignRole('satpam');
+
+        $superAdmin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'password' => 'superadmin', // Ganti dengan password yang aman
+        ]);
+        $superAdmin->assignRole('super-admin');
 
         User::create([
             'name' => 'Admin',
