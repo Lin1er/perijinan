@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ijin extends Model
+class Ijin extends Model
 {
     use HasFactory;
 
@@ -14,12 +14,12 @@ class ijin extends Model
         'user_id',
         'student_id',
         'class',
+        'medic_attachment_link',
         'reason',
-        'attachment_link',
         'date_pick',
         'date_return',
         'returned_at',
-        'medic_attachment_link',
+        'pickup_attachment_link',
         'return_attachment_link',
     ];
 

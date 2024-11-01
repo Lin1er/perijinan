@@ -38,18 +38,18 @@
             </div>
 
             <div class="mb-4">
-                <label for="attachment" class="block text-gray-700 text-sm font-bold mb-2">Bukti Lampiran</label>
-                <input type="file" name="attachment" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                <label for="medic_attachment" class="block text-gray-700 text-sm font-bold mb-2">Bukti Lampiran *Opsional</label>
+                <input type="file" name="medic_attachment" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2">
             </div>
 
             <div class="mb-4">
-                <label for="date_in" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Masuk</label>
-                <input type="date" name="date_in" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                <label for="date_pick" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Keluar</label>
+                <input type="date" name="date_pick" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
             </div>
 
             <div class="mb-4">
-                <label for="date_out" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Keluar</label>
-                <input type="date" name="date_out" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                <label for="date_return" class="block text-gray-700 text-sm font-bold mb-2">Ajukan Tanggal Kembali</label>
+                <input type="date" name="date_return" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
             </div>
 
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Ajukan</button>

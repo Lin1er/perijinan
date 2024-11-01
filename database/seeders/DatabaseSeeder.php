@@ -53,17 +53,18 @@ class DatabaseSeeder extends Seeder
             'password' => 'satpam', // Ganti dengan password yang aman
         ]);
 
-        User::create([
+        $admin = User::create([
             'name' => 'Admin',
-            'email' => 'admin@a.c',
-            'password' => '123', // Ganti dengan password yang aman
+            'email' => 'admin@example.com',
+            'password' => 'admin', // Ganti dengan password yang aman
         ]);
 
         // Assign role ke user
         $guru->assignRole('guru');
         $satpam->assignRole('satpam');
         $orangtua->assignROle('orangtua');
-        
+        $admin->givePermissionTo('akses admin', 'validasi jemput', 'validasi kembali', 'mengajukan izin', 'verifikasi izin');        
+
         Ijin::factory()->count(10)->create();
     }
 }
