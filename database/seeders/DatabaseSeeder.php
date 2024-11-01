@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $roleOrangtua = Role::create(['name' => 'orangtua']);
         $roleGuru = Role::create(['name' => 'guru']);
         $roleSatpam = Role::create(['name' => 'satpam']);
+        $rolesuperAdmin = Role::create(['name'=> 'super-admin']);
 
         // Membuat izin
         Permission::create(['name' => 'mengajukan izin']);
@@ -30,8 +31,7 @@ class DatabaseSeeder extends Seeder
 
         // Memberikan izin ke peran masing-masing
         $roleOrangtua->givePermissionTo('mengajukan izin');
-        $roleGuru->givePermissionTo('verifikasi izin');
-        $roleGuru->givePermissionTo('akses admin');
+        $roleGuru->givePermissionTo(['verifikasi izin','akses_ admin']);
         $roleSatpam->givePermissionTo(['validasi jemput', 'validasi kembali']);
 
         // Membuat user percobaan untuk Satpam dan Guru
@@ -40,18 +40,28 @@ class DatabaseSeeder extends Seeder
             'email' => 'orangtua@example.com',
             'password' => 'orangtua', // Ganti dengan password yang aman
         ]);
+        $orangtua->assignRole('orangtua');
 
         $guru = User::create([
             'name' => 'Guru Test',
             'email' => 'guru@example.com',
             'password' => 'guru', // Ganti dengan password yang aman
         ]);
+        $guru->assignRole('guru');
 
         $satpam = User::create([
             'name' => 'Satpam Test',
             'email' => 'satpam@example.com',
             'password' => 'satpam', // Ganti dengan password yang aman
         ]);
+        $satpam->assignRole('satpam');
+
+        $superAdmin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'password' => 'superadmin', // Ganti dengan password yang aman
+        ]);
+        $superAdmin->assignRole('super-admin');
 
         $admin = User::create([
             'name' => 'Admin',
@@ -59,11 +69,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin', // Ganti dengan password yang aman
         ]);
 
-        // Assign role ke user
-        $guru->assignRole('guru');
-        $satpam->assignRole('satpam');
-        $orangtua->assignROle('orangtua');
-        $admin->givePermissionTo('akses admin', 'validasi jemput', 'validasi kembali', 'mengajukan izin', 'verifikasi izin');        
+
 
         Ijin::factory()->count(10)->create();
     }
