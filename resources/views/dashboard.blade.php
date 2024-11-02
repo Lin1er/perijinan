@@ -54,7 +54,7 @@
                             <th scope="row" class="px-2 py-4 font-medium text-gray-900 dark:text-white">
                                 {{ $ijin->student->username }}
                             </th>
-                            <td class="px-3 py-4">{{ $ijin->class }}</td>
+                            <td class="px-3 py-4">{{ $ijin->student->studentClass->name }}</td>
                             <td class="px-2 py-4 hidden sm:table-cell">{{ Str::limit($ijin->reason, 10) }}</td>
                             <td class="px-4 py-4">
                                 {{ $ijin->verify_status == '1' ? 'Verified' : 'Pending' }}

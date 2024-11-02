@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Student;
+use App\Models\StudentClass;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StudentFactory extends Factory
@@ -12,9 +13,9 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'username' => $this->faker->username(),
-            'full_name' => $this->faker->name(),
-            'class' => $this->faker->randomElement(['X', 'XI', 'XII']),
+            'student_class_id' => StudentClass::inRandomOrder()->first()->id,
+            'username' => $this->faker->userName(),
+            'name' => $this->faker->name(),
         ];
     }
 }

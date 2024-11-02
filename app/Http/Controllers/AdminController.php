@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\StudentClass;
 
 class AdminController extends Controller
 {
@@ -14,28 +15,29 @@ class AdminController extends Controller
     public function studentIndex(){
         $students = Student::all();
 
-        dd($students);
-
         return view('admin.student.index', compact('students'));
     }
 
     public function studentCreate(){
-        return view('admin.student.create');
+        $classes = StudentClass::all();
+
+        return view('admin.student.create', compact('classes'));
     }
 
     public function studentStore(Request $request){
+
+        // dd($request->all());
+
         $request->validate([
+            'student_class_id' => 'required',
             'name' => 'required',
-            'nis' => 'required',
-            'class' => 'required',
-            'address' => 'required',
+            'username' => 'required'
         ]);
 
         Student::create([
+            'student_class_id' => $request->student_class_id,
+            'username' => $request->username,
             'name' => $request->name,
-            'nis' => $request->nis,
-            'class' => $request->class,
-            'address' => $request->address,
         ]);
 
         return redirect()->route('admin.student.index');

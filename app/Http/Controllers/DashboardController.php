@@ -24,9 +24,13 @@ class DashboardController extends Controller
             $query->where('verify_status', $request->status);
         }
 
+        // Urutkan data berdasarkan yang terbaru (misalnya berdasarkan kolom created_at)
+        $query->orderBy('created_at', 'desc');
+
         // Ambil data dengan pagination
         $ijins = $query->paginate(10);
 
         return view('dashboard', compact('ijins'));
     }
+
 }

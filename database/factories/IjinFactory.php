@@ -24,7 +24,6 @@ class IjinFactory extends Factory
         return [
             'student_id' => Student::factory(), // Menggunakan factory untuk Student
             'user_id' => User::factory(),       // Menggunakan factory untuk User
-            'class' => $this->faker->randomElement(['10', '11', '12']),
             'reason' => $this->faker->sentence(),
             'medic_attachment_link' => $this->faker->optional()->url(),
             'pickup_attachment_link' => $this->faker->optional()->url(),

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->onDelete('cascade');  // Foreign key ke students
             $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Foreign key ke users
-            $table->string('class');
             $table->string('medic_attachment_link')->nullable(); // bukti surat izin medic
             $table->string('reason');
             $table->date('date_return');

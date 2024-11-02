@@ -25,6 +25,7 @@ class IjinController extends Controller
     public function create()
     {
         $students = Student::all();
+
         return view('ijin.create', compact('students'));
     }
 
@@ -36,7 +37,6 @@ class IjinController extends Controller
         // Validasi input
         $request->validate([
             'student_id' => 'required|exists:students,id',
-            'class' => 'required|string',
             'reason' => 'required|string',
             'medic_attachment'=> 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'date_pick' => 'required|date',
@@ -51,9 +51,8 @@ class IjinController extends Controller
         }
 
         $ijin = new Ijin([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
             'student_id' => $request->student_id,
-            'class' => $request->class,
             'reason' => $request->reason,
             'medic_attachment_link' => $medicAttachmentLink, // Simpan link file bukti surat medis
             'date_pick' => $request->date_pick,

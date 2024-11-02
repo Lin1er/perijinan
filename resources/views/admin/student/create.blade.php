@@ -19,22 +19,25 @@
 
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nama Lengkap</label>
-                <input type="text" name="name" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" value="{{ old('name') }}" required>
+                <input type="text" name="name" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
             </div>
 
             <div class="mb-4">
-                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
-                <input type="text" name="username" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" value="{{ old('username') }}" required>
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Nama Panggilan</label>
+                <input type="text" name="username" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
             </div>
 
             <div class="mb-4">
-                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input type="email" name="email" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" value="{{ old('email') }}" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Kata Sandi</label>
-                <input type="password" name="password" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                {{-- @foreach ($classes as $class)
+                    {{ $class->id, $class->name }}
+                @endforeach --}}
+                <label for="student_class_id" class="block text-gray-700 text-sm font-bold mb-2">Kelas</label>
+                <select name="student_class_id" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                    <option value="" disabled selected>Pilih Kelas</option>
+                    @foreach($classes as $class)
+                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Simpan</button>

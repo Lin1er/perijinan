@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Ijin;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\StudentClass;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $roleOrangtua = Role::create(['name' => 'orangtua']);
         $roleGuru = Role::create(['name' => 'guru']);
         $roleSatpam = Role::create(['name' => 'satpam']);
-        $rolesuperAdmin = Role::create(['name'=> 'super-admin']);
+        $rolesuperAdmin = Role::create(['name'=> 'Super Admin']);
 
         // Membuat izin
         Permission::create(['name' => 'mengajukan izin']);
@@ -31,7 +32,7 @@ class DatabaseSeeder extends Seeder
 
         // Memberikan izin ke peran masing-masing
         $roleOrangtua->givePermissionTo('mengajukan izin');
-        $roleGuru->givePermissionTo(['verifikasi izin','akses_ admin']);
+        $roleGuru->givePermissionTo(['verifikasi izin','akses admin']);
         $roleSatpam->givePermissionTo(['validasi jemput', 'validasi kembali']);
 
         // Membuat user percobaan untuk Satpam dan Guru
@@ -61,12 +62,24 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@example.com',
             'password' => 'superadmin', // Ganti dengan password yang aman
         ]);
-        $superAdmin->assignRole('super-admin');
+        $superAdmin->assignRole('Super Admin');
 
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => 'admin', // Ganti dengan password yang aman
+        ]);
+
+        $admin->assignRole('Super Admin');
+
+        StudentClass::create([
+            'name' => 'X',
+        ]);
+        StudentClass::create([
+            'name' => 'XI',
+        ]);
+        StudentClass::create([
+            'name' => 'XII',
         ]);
 
 

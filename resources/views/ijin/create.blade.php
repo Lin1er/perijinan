@@ -16,20 +16,19 @@
 
         <form method="POST" action="{{ route('ijin.store') }}" enctype="multipart/form-data">
             @csrf
-
             <div class="mb-4">
                 <label for="student_id" class="block text-gray-700 text-sm font-bold mb-2">Pilih Siswa</label>
-                <select name="student_id" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2">
+                <select id="student_id" name="student_id" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2">
                     <option value="" disabled selected>Pilih Siswa</option>
                     @foreach($students as $student)
-                        <option value="{{ $student->id }}">{{ $student->username }}</option>
+                        <option value="{{ $student->id }}" data-class="{{ $student->studentClass->name }}">{{ $student->username }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="mb-4">
                 <label for="class" class="block text-gray-700 text-sm font-bold mb-2">Kelas</label>
-                <input type="text" name="class" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" placeholder="Masukkan Kelas" required>
+                <input type="text" id="class" name="class" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" placeholder="Masukkan Kelas" readonly>
             </div>
 
             <div class="mb-4">
@@ -55,4 +54,13 @@
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Ajukan</button>
         </form>
     </div>
+
+    <script>
+        // JavaScript untuk mengisi kelas otomatis berdasarkan siswa yang dipilih
+        document.getElementById('student_id').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const studentClass = selectedOption.getAttribute('data-class');
+            document.getElementById('class').value = studentClass ? studentClass : '';
+        });
+    </script>
 </x-app-layout>

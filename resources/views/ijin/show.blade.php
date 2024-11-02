@@ -6,7 +6,7 @@
             <div>{{ $ijin->student->username }}</div>
 
             <div class="font-semibold">Kelas:</div>
-            <div>{{ $ijin->class }}</div>
+            <div>{{ $ijin->student->studentClass->name }}</div>
 
             <div class="font-semibold">Alasan:</div>
             <div>{{ $ijin->reason }}</div>
@@ -37,11 +37,20 @@
             <div>
                 @if ($ijin->medic_attachment_link)
                     <a href="{{ asset('storage/' . $ijin->medic_attachment_link) }}" target="_blank"
-                        class="text-blue-500 underline">Lihat Lampiran</a>
+                        class="text-blue-500 underline">Lihat Lampiran Medis</a>
                 @else
-                    Tidak Ada Lampiran
+                    Tidak Ada Lampiran Medis
                 @endif
             </div>
+
+            @if ($ijin->pickup_attachment_link)
+                <a href="{{ asset('storage/' . $ijin->pickup_attachment_link) }}" target="_blank"
+                    class="text-blue-500 underline">Lihat Bukti penjemputan</a>
+            @endif
+            @if ($ijin->return_attachment_link)
+                <a href="{{ asset('storage/' . $ijin->return_attachment_link) }}" target="_blank"
+                    class="text-blue-500 underline">Lihat Bukti pengembalian</a>
+            @endif
         </div>
 
         <!-- Bagian Verifikasi dan Validasi -->
