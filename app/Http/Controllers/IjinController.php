@@ -38,7 +38,7 @@ class IjinController extends Controller
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'reason' => 'required|string',
-            'medic_attachment'=> 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'medic_attachment'=> 'image|mimes:jpeg,png,jpg,gif',
             'date_pick' => 'required|date',
             'date_return' => 'required|date',
         ]);

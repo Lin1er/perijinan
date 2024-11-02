@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IjinController;
-use Illuminate\Routing\Route as RoutingRoute;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,13 +18,13 @@ Route::get('/pengajuan-status', function () {
 });
 
 Route::middleware([
-    'auth:sanctum',
+    'auth',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/ijin', 'IjinController@index')->name('ijin.index');
+    Route::get('/ijin', [IjinController::class, 'index'])->name('ijin.index');
     Route::get('/ijin/create', [IjinController::class, 'create'])->name('ijin.create');
     Route::post('/ijin/store',  [IjinController::class, 'store'])->name('ijin.store');
     Route::get('/ijin/{ijin}', [IjinController::class, 'show'])->name('ijin.show');
@@ -43,5 +42,10 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::get('/admin/{student}', [AdminController::class, 'studentShow'])->name('admin.student.show');
     Route::patch('/admin/{student}', [AdminController::class, 'studentEdit'])->name('admin.student.edit');
     Route::delete('/admin/{student}', [AdminController::class, 'studentDestroy'])->name('admin.student.destroy');
-});
 
+    Route::get('/admin/user', [AdminController::class, 'userIndex'])->name('admin.user.index');
+    Route::get('/admin/user/{user}', [AdminController::class, 'userShow'])->name('admin.user.show');
+    Route::get('/admin/user/{user}/edit', [AdminController::class, 'userEdit'])->name('admin.user.edit');
+    Route::patch('/admin/user/{user}', [AdminController::class, 'userUpdate'])->name('admin.user.update');
+    Route::delete('/admin/user/{user}', [AdminController::class, 'userDestroy'])->name('admin.user.destroy');
+});

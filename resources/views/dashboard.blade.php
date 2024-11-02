@@ -10,6 +10,10 @@
         <p class="mt-4 text-lg text-gray-600">Aplikasi ini mempermudah proses pengajuan izin pulang untuk anak asrama.
         </p>
 
+        @can('mengajukan izin')
+            <p>lo super admin bangsat</p>
+        @endcan
+
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
             <div class="pb-4 bg-white dark:bg-gray-900 flex flex-col sm:flex-row justify-between p-5">
                 <!-- Form Pencarian dan Filter Status -->

@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\StudentClass;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin.index');
+        $totalStudents = Student::count();
+        $totalSatpam = User::role('satpam')->count();
+        $totalUsers = User::count(); // Total semua pengguna
+        $totalTeachers = User::role('guru')->count();
+        $totalParents = User::role('orangtua')->count();
+        $users = User::all();
+
+        return view('admin.index', compact('totalStudents', 'totalSatpam', 'totalUsers', 'totalTeachers', 'users', 'totalParents'));
     }
 
     public function studentIndex(){
@@ -55,5 +64,42 @@ class AdminController extends Controller
         $student->delete();
 
         return redirect()->route('admin.student.index');
+    }
+
+
+    public function userIndex(){
+        $users = User::all();
+
+        return view('admin.index', compact('users'));
+    }
+
+    public function userShow(User $user){
+        return view('admin.user.show', compact('user'));
+    }
+
+    public function userEdit(User $user){
+        $roles = Role::all();
+        return view('admin.user.edit', compact('user', 'roles'));
+    }
+
+    public function userUpdate(Request $request, User $user){
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+
+        ]);
+
+        $user->syncRoles($request->roles);
+
+        return redirect()->route('admin.index');
+    }
+
+    public function userDestroy(User $user){
+        $user->delete();
+
+        return redirect()->route('admin.index');
     }
 }
