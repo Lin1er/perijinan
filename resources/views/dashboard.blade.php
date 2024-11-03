@@ -8,10 +8,13 @@
     <main class="flex-grow container mx-auto mt-12 text-center">
             <div class="flex flex-col items-left border border-blue-400 bg-blue-400 bg-opacity-50 p-4 rounded">
                 <div class="flex items-center">
-                    <img src="/images/testingprof.png" style="width: 125px; height: 125px; border-radius: 100%;" alt="Profile Image" />
+                    <div class="mt-2" x-show="! photoPreview">
+                        <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="rounded-full h-[125px] w-[125px] object-cover">
+                    </div>
                     <div class="ml-4">
                         <h1 class="text-2xl font-bold text-gray-800">Nama Anda</h1>
-                        <p class="text-lg text-gray-600">Posisi/Jabatan Anda</p>
+                        <p class="text-lg text-gray-600">{{ Auth::user()->roles->first()->name }}</p>
+                        {{-- {{ dd(Auth::user()) }} --}}
                     </div>
                 </div>
                 <h3 class="text-4xl font-bold text-gray-800">Selamat Datang di Aplikasi Perizinan Pulang</h1>
