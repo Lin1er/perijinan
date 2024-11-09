@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Http;
 
 class SendIjinNotification
 {
@@ -25,14 +26,14 @@ class SendIjinNotification
     public function handle(IjinCreated $event)
     {
         $ijin = $event->ijin;
+        $phoneNumber = '081373793858';  // Ganti dengan nomor tujuan
+        $message = "Izin baru telah diajukan oleh " . $ijin->user->name . " dengan alasan: " . $ijin->reason;
 
-        // Dapatkan semua admin
-        // $admins = User::role('admin')->get(); // Menggunakan Spatie/Permission
-
-        Mail::to('m.ulinasidiki@gmail.com')->send(new IjinNotification($ijin));
-
-        // foreach ($admins as $admin) {
-        //     Mail::to($admin->email)->send(new IjinNotification($ijin));
-        // }
+        // Contoh permintaan HTTP menggunakan dokumentasi API
+        Http::post('https://app.whacenter.com/api/send', [
+            'device_id' => '030b72451c45cfc63b984d6617147a98',
+            'number' => $phoneNumber,
+            'message' => $message,
+        ]);
     }
 }

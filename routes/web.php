@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IjinController;
+use App\Http\Controllers\WhacenterController;
 use App\Models\Ijin;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::patch('/admin/{student}', [AdminController::class, 'studentUpdate'])->name('admin.student.update');
     Route::delete('/admin/{student}', [AdminController::class, 'studentDestroy'])->name('admin.student.destroy');
 
+    Route::get('/admin/whacenter', [WhacenterController::class, 'index'])->name('admin.whacenter.index');
     
     Route::get('/admin/user', [AdminController::class, 'userIndex'])->name('admin.user.index');
     Route::get('/admin/user/{user}', [AdminController::class, 'userShow'])->name('admin.user.show');
@@ -54,6 +56,7 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
 });
 
 Route::get('/admin/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
+
 
 Route::get('/pdfdev', function(){
     $id = 5;
