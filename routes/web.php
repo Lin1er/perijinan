@@ -3,6 +3,8 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\IjinController;
+use App\Models\Ijin;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,13 +41,32 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::get('/admin/student', [AdminController::class, 'studentIndex'])->name('admin.student.index');
     Route::get('/admin/create', [AdminController::class, 'studentCreate'])->name('admin.student.create');
     Route::post('/admin/store', [AdminController::class, 'studentStore'])->name('admin.student.store');
-    Route::get('/admin/{student}', [AdminController::class, 'studentShow'])->name('admin.student.show');
-    Route::patch('/admin/{student}', [AdminController::class, 'studentEdit'])->name('admin.student.edit');
+    Route::get('/admin/{student}', [AdminController::class, 'studentEdit'])->name('admin.student.edit');
+    Route::patch('/admin/{student}', [AdminController::class, 'studentUpdate'])->name('admin.student.update');
     Route::delete('/admin/{student}', [AdminController::class, 'studentDestroy'])->name('admin.student.destroy');
 
+    
     Route::get('/admin/user', [AdminController::class, 'userIndex'])->name('admin.user.index');
     Route::get('/admin/user/{user}', [AdminController::class, 'userShow'])->name('admin.user.show');
     Route::get('/admin/user/{user}/edit', [AdminController::class, 'userEdit'])->name('admin.user.edit');
     Route::patch('/admin/user/{user}', [AdminController::class, 'userUpdate'])->name('admin.user.update');
     Route::delete('/admin/user/{user}', [AdminController::class, 'userDestroy'])->name('admin.user.destroy');
+});
+
+Route::get('/admin/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
+
+Route::get('/pdfdev', function(){
+    $id = 5;
+    $ijin = Ijin::find($id);
+    if (!$ijin) {
+        return "Data with ID {$id} not found.";
+    }
+    return view('pdfs.ijin_pdf', compact('ijin'));
+});
+
+Route::get('/print/pdf', function(){
+    $id = 5;
+    $ijin = Ijin::find($id);
+    $pdf = Pdf::loadView('pdfs.ijin_pdf',compact('ijin'));
+    return $pdf->download();
 });

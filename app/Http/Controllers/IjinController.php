@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Events\IjinCreated;
 
 class IjinController extends Controller
 {
@@ -16,7 +17,9 @@ class IjinController extends Controller
      */
     public function index()
     {
-        // Implementasi di sini jika perlu
+        // Ambil semua data izin, dengan relasi student
+        $ijins = Ijin::with('student')->get();
+        return view('ijin.index', compact('ijins'));
     }
 
     /**
@@ -25,7 +28,6 @@ class IjinController extends Controller
     public function create()
     {
         $students = Student::all();
-
         return view('ijin.create', compact('students'));
     }
 
@@ -44,98 +46,75 @@ class IjinController extends Controller
         ]);
 
         // Menyimpan file medic_attachment
-        $medicAttachmentLink = null;
+        $attachments = [];
         if ($request->hasFile('medic_attachment')) {
-            $file = $request->file('medic_attachment');
-            $medicAttachmentLink = $file->store('medic_attachments', 'public'); // Simpan di folder `storage/app/public/attachments`
+            $attachments['medic'] = $request->file('medic_attachment')->store('medic_attachments', 'public');
         }
 
-        $ijin = new Ijin([
-            'user_id' => Auth::user()->id,
+        $ijin = Ijin::create([
+            'user_id' => Auth::id(),
             'student_id' => $request->student_id,
             'reason' => $request->reason,
-            'medic_attachment_link' => $medicAttachmentLink, // Simpan link file bukti surat medis
             'date_pick' => $request->date_pick,
             'date_return' => $request->date_return,
-            'verify_status' => '0',
-            'status' => '0',
-
+            'status' => 'wait_approval',
+            'attachments' => $attachments,
         ]);
 
-        // dd($ijin);
-
-        // Simpan data ke database
-        $ijin->save();
-
-        return redirect()->route('dashboard')->with('flash.banner', 'Data izin berhasil disimpan!')->with('flash.bannerStyle', 'success');
+        event(new IjinCreated($ijin));
+        return back()->with('success', 'Data izin berhasil disimpan!');
     }
 
-    public function verify(Ijin $ijin , Request $request)
+    /**
+     * Update status dan catatan untuk verifikasi atau penolakan izin.
+     */
+    public function verify(Ijin $ijin, Request $request)
     {
-        // Validasi tanggal pengembalian
-        $request->validate([
-            'date_return' => 'required|date',
+        if($request->action == 'approve') {
+            $request->validate([
+                'notes' => 'required|string',
+                'date_return' => 'required|date'
+            ]);
+        }
+    
+        // Tentukan status berdasarkan tombol yang ditekan (approve atau reject)
+        $status = $request->action == 'approve' ? 'approved' : 'rejected';
+    
+        // Update status dan catatan
+        $ijin->update([
+            'status' => $status,
+            'notes' => $request->notes
         ]);
-
-        // Ubah nilai verify_status menjadi 1 dan simpan tanggal pengembalian
-        $ijin->verify_status = 1;
-        $ijin->date_return = $request->input('date_return');  // Tanggal pengembalian yang disetujui
-
-        // Simpan perubahan
-        $ijin->save();
-
-        // Redirect ke dashboard dengan pesan sukses
-        return redirect()->route('dashboard')->with('success', 'Izin berhasil disetujui dengan tanggal pengembalian!');
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('dashboard')->with('success', 'Izin berhasil diperbarui!');
     }
+    
 
-
-    // Metode untuk memproses pickup
-    public function pickup(Request $request, $id)
+    /**
+     * Proses pickup
+     */
+    public function pickup(Request $request, Ijin $ijin)
     {
-        $ijin = Ijin::findOrFail($id);
-
-        // Memeriksa apakah ada data pickup_attachment_data
         if ($request->has('pickup_attachment_data')) {
-            $imageData = $request->pickup_attachment_data;
-
-            // Menghapus bagian 'data:image/png;base64,' dari string base64
-            $imageData = str_replace('data:image/png;base64,', '', $imageData);
-            $imageData = str_replace(' ', '+', $imageData);
-            $imageName = 'pickup_' . Str::random(10) . '.png';
-
-            // Simpan gambar ke storage
-            Storage::disk('public')->put('attachments/' . $imageName, base64_decode($imageData));
-
-            // Update model izin
-            $ijin->pickup_attachment_link = 'attachments/' . $imageName;
-            $ijin->status = 1; // Update status setelah pickup
+            $imageData = $this->storeBase64Image($request->pickup_attachment_data, 'pickup');
+            $ijin->attachments = array_merge($ijin->attachments ?? [], ['pickup' => $imageData]);
+            $ijin->status = 'picked_up';
             $ijin->save();
         }
 
         return redirect()->route('ijin.show', $ijin->id)->with('success', 'Bukti jemput berhasil disimpan.');
     }
 
-    // Metode untuk memproses return
-    public function return(Request $request, $id)
+    /**
+     * Proses return
+     */
+    public function return(Request $request, Ijin $ijin)
     {
-        $ijin = Ijin::findOrFail($id);
-
-        // Memeriksa apakah ada data return_attachment_data
         if ($request->has('return_attachment_data')) {
-            $imageData = $request->return_attachment_data;
-
-            // Menghapus bagian 'data:image/png;base64,' dari string base64
-            $imageData = str_replace('data:image/png;base64,', '', $imageData);
-            $imageData = str_replace(' ', '+', $imageData);
-            $imageName = 'return_' . Str::random(10) . '.png';
-
-            // Simpan gambar ke storage
-            Storage::disk('public')->put('attachments/' . $imageName, base64_decode($imageData));
-
-            // Update model izin
-            $ijin->returned_at = now();
-            $ijin->return_attachment_link = 'attachments/' . $imageName;
-            $ijin->status = 2; // Update status setelah return
+            $imageData = $this->storeBase64Image($request->return_attachment_data, 'return');
+            $ijin->attachments = array_merge($ijin->attachments ?? [], ['return' => $imageData]);
+            $ijin->status = 'returned';
             $ijin->save();
         }
 
@@ -147,51 +126,33 @@ class IjinController extends Controller
      */
     public function show(Ijin $ijin)
     {
-        // Ambil data student terkait dengan izin ini
         $student = $ijin->student;
-
-        // Kirim data izin dan student ke tampilan
         return view('ijin.show', compact('ijin', 'student'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ijin $ijin)
-    {
-        // Implementasi di sini jika perlu
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Ijin $ijin)
-    {
-        // Implementasi di sini jika perlu
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Hapus izin dan file lampiran.
      */
     public function destroy(Ijin $ijin)
     {
-        // Hapus file lampiran jika ada
-        if ($ijin->medic_attachment_link) {
-            Storage::disk('public')->delete($ijin->medic_attachment_link);
+        foreach ($ijin->attachments as $attachment) {
+            Storage::disk('public')->delete($attachment);
         }
-
-        if ($ijin->pickup_attachment_link) {
-            Storage::disk('public')->delete($ijin->pickup_attachment_link);
-        }
-
-        if ($ijin->return_attachment_link) {
-            Storage::disk('public')->delete($ijin->return_attachment_link);
-        }
-
-        // Hapus data izin dari database
+        
         $ijin->delete();
-
-        // Redirect ke halaman yang diinginkan dengan pesan sukses
         return redirect()->route('dashboard')->with('success', 'Data izin berhasil dihapus!');
+    }
+
+    /**
+     * Simpan gambar base64 dan kembalikan nama file.
+     */
+    private function storeBase64Image($base64Data, $prefix)
+    {
+        $imageData = str_replace('data:image/png;base64,', '', $base64Data);
+        $imageData = str_replace(' ', '+', $imageData);
+        $imageName = "{$prefix}_" . Str::random(10) . '.png';
+        Storage::disk('public')->put("attachments/{$imageName}", base64_decode($imageData));
+        
+        return "attachments/{$imageName}";
     }
 }

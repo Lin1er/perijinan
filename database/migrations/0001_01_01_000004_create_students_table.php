@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('student_class_id')->constrained()->onDelete('cascade');
             $table->string('username');
             $table->string('name');
+            $table->string('gender');
+            $table->date('born_date')->nullable();
+            $table->string('address');
             $table->timestamps();
         });
     }

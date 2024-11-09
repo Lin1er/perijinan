@@ -6,10 +6,8 @@ use App\Models\Ijin;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ijin>
- */
 class IjinFactory extends Factory
 {
     protected $model = Ijin::class;
@@ -22,17 +20,20 @@ class IjinFactory extends Factory
     public function definition(): array
     {
         return [
-            'student_id' => Student::factory(), // Menggunakan factory untuk Student
-            'user_id' => User::factory(),       // Menggunakan factory untuk User
-            'reason' => $this->faker->sentence(),
-            'medic_attachment_link' => $this->faker->optional()->url(),
-            'pickup_attachment_link' => $this->faker->optional()->url(),
-            'return_attachment_link' => $this->faker->optional()->url(),
-            'date_pick' => $this->faker->date(),
-            'date_return' => $this->faker->date(),
-            'verify_status' => $this->faker->randomElement(['0', '1']),
-            'status' => $this->faker->randomElement(['0', '1']),
-            'returned_at'=> $this->faker->date(),
+            'student_id' => Student::factory(),       // Menggunakan factory untuk Student
+            'user_id' => User::factory(),             // Menggunakan factory untuk User
+            'reason' => $this->faker->sentence(),     // Alasan izin
+            'date_pick' => $this->faker->date(),      // Tanggal jemput
+            'date_return' => $this->faker->date(),    // Tanggal kembali
+            'status' => $this->faker->randomElement(['wait_approval', 'approved', 'rejected', 'picked_up', 'returned']),
+            'notes' => $this->faker->optional()->sentence(), // Catatan izin
+
+            // Simulasi data JSON untuk lampiran dengan beberapa data acak untuk `medic`, `pickup`, dan `return`
+            'attachments' => [
+                'medic' => $this->faker->optional()->imageUrl(200, 200, 'medical', true, 'medic'),
+                'pickup' => $this->faker->optional()->imageUrl(200, 200, 'pickup', true, 'pickup'),
+                'return' => $this->faker->optional()->imageUrl(200, 200, 'return', true, 'return'),
+            ],
         ];
     }
 }

@@ -28,6 +28,15 @@
             </div>
 
             <div class="mb-4">
+                <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Jenis Kelamin</label>
+                <select name="gender" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
+                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                    <option value="male">Laki-laki</option>
+                    <option value="female">Perempuan</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
                 {{-- @foreach ($classes as $class)
                     {{ $class->id, $class->name }}
                 @endforeach --}}
@@ -38,6 +47,11 @@
                         <option value="{{ $class->id }}">{{ $class->name }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Address</label>
+                <input type="address" name="address" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
             </div>
 
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Simpan</button>

@@ -18,7 +18,7 @@
 
                     <x-slot name="description">
                         <div class="flex flex-col gap-7">
-                            <h2 class="text-center text-3xl font-bold mb-10 text-black">Selamat Datang di Aplikasi</h2>
+                            <h2 class="text-center text-3xl font-bold mb-10 text-black">Selamat Datang di Aplikasi<br>Perizinan Siswa</h2>
                             <!-- Buttons -->
                             <div class="flex flex-col justify-center gap-4">
                                 <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Login</a>
@@ -43,10 +43,6 @@
                 <div class="flex flex-col items-start">
                     <img src="logos/ester.svg" alt="Estersena">
                     <p>Created By: Estersena</p>
-                </div>
-                <div class="flex flex-col items-end">
-                    <img src="logos/faq.svg" alt="FAQ">
-                    <p>Frequental Ask Question</p>
                 </div>
             </div>
         </div>

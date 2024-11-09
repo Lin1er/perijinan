@@ -13,18 +13,15 @@ return new class extends Migration
     {
         Schema::create('ijins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained()->onDelete('cascade');  // Foreign key ke students
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Foreign key ke users
-            $table->string('medic_attachment_link')->nullable(); // bukti surat izin medic
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('reason');
             $table->date('date_return');
             $table->date('date_pick');
-            $table->string('verify_status')->default('0');
-            $table->string('status')->default('0');
-            $table->dateTime('returned_at')->nullable();  //siswa akan kembali pada tanggal sekian
-            $table->string('pickup_attachment_link')->nullable(); // bukti siswa telah keluar
-            $table->string('return_attachment_link')->nullable();  //bukti siswa telah kembali
-            $table->timestamps();
+            $table->string('status')->default('wait_approval');  // Status tunggal untuk seluruh alur proses
+            $table->json('attachments')->nullable();  // Menyimpan semua lampiran dalam format JSON
+            $table->text('notes')->nullable();  // Catatan umum
+            $table->timestamps();  // Otomatis menyediakan created_at dan updated_at
         });
     }
 

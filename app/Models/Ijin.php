@@ -10,33 +10,53 @@ class Ijin extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'user_id',
         'student_id',
-        'class',
-        'medic_attachment_link',
+        'user_id',
         'reason',
-        'date_pick',
         'date_return',
-        'returned_at',
-        'pickup_attachment_link',
-        'return_attachment_link',
+        'date_pick',
+        'status',
+        'attachments',
+        'notes',
     ];
 
-    /**
-     * Get the student that owns the ijin.
-    */
+    protected $casts = [
+        'attachments' => 'json',
+        'date_pick' => 'datetime',
+        'date_return' => 'datetime'
+    ];
+
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
-    /**
-     * Get the user that owns the ijin.
-    */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Accessor untuk menampilkan label status.
+     */
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            'wait_approval' => 'Menunggu Persetujuan',
+            'approved' => 'Disetujui',
+            'rejected' => 'Ditolak',
+            'picked_up' => 'Telah Dijemput',
+            'returned' => 'Sudah Kembali',
+            'done' => 'Selesai',
+            default => 'Tidak Diketahui',
+        };
+    }
+
+    /**
+     * Accessor untuk menampilkan catatan jika tidak ada nilai.
+     */
+    public function getNotesAttribute($value)
+    {
+        return $value ?: 'Tidak ada catatan';
+    }
 }

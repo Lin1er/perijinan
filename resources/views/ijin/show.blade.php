@@ -1,73 +1,74 @@
 <x-app-layout>
     <div class="w-full max-w-lg mx-auto bg-blue-100 rounded-lg p-4 shadow-md md:max-w-3xl">
         <h1 class="text-2xl font-semibold p-4">Detail Izin</h1>
-        <div class="grid grid-cols-2 gap-1 mb-4">
-            <div class="font-semibold">Username:</div>
-            <div>{{ $ijin->student->username }}</div>
-
-            <div class="font-semibold">Kelas:</div>
-            <div>{{ $ijin->student->studentClass->name }}</div>
-
-            <div class="font-semibold">Alasan:</div>
-            <div>{{ $ijin->reason }}</div>
-
-            <div class="font-semibold">Tanggal Keluar:</div>
-            <div>{{ $ijin->date_pick }}</div>
-
-            <div class="font-semibold">Tanggal Kembali:</div>
-            <div>{{ $ijin->date_return }}</div>
-
-            <div class="font-semibold">Status Verifikasi:</div>
-            <div>{{ $ijin->verify_status == '1' ? 'Verified' : 'Pending' }}</div>
-
-            <div class="font-semibold">Status Siswa:</div>
+        <div class="flex flex-row mb-4">
             <div>
-                @if ($ijin->status == '0')
-                    Belum Dijemput
-                @elseif ($ijin->status == '1')
-                    Sudah Dijemput
-                @elseif ($ijin->status == '2')
-                    Sudah Kembali
-                @else
-                    Status Tidak Diketahui
-                @endif
+                <div class="font-semibold">Username</div>
+                <div class="font-semibold">Kelas</div>
+                <div class="font-semibold">Alasan</div>
+                <div class="font-semibold">Tanggal Keluar</div>
+                <div class="font-semibold">Tanggal Kembali</div>
+                <div class="font-semibold">Status Izin</div>
+                <div class="font-semibold">Lampiran</div>
             </div>
-
-            <div class="font-semibold">Lampiran:</div>
             <div>
-                @if ($ijin->medic_attachment_link)
-                    <a href="{{ asset('storage/' . $ijin->medic_attachment_link) }}" target="_blank"
-                        class="text-blue-500 underline">Lihat Lampiran Medis</a>
-                @else
-                    Tidak Ada Lampiran Medis
-                @endif
+                <div>: {{ $ijin->student->username }}</div>
+                <div>: {{ $ijin->student->studentClass->name }}</div>
+                <div>: {{ $ijin->reason }}</div>
+                <div>: {{ $ijin->date_pick }}</div>
+                <div>: {{ $ijin->date_return }}</div>
+                <div>: {{ $ijin->getStatusLabelAttribute($ijin->status) }}</div>
+                <div class="flex flex-col">
+                    @if ($ijin->attachments['medic'] ?? null)
+                        <a href="{{ asset('storage/' . $ijin->attachments['medic']) }}" target="_blank"
+                            class="text-blue-500 underline">Lihat Lampiran Medis</a>
+                    @else
+                        Tidak Ada Lampiran Medis
+                    @endif
+                    @if ($ijin->attachments['pickup'] ?? null)
+                        <a href="{{ asset('storage/' . $ijin->attachments['pickup']) }}" target="_blank"
+                            class="text-blue-500 underline">Lihat Bukti Penjemputan</a>
+                    @endif
+                    @if ($ijin->attachments['return'] ?? null)
+                        <a href="{{ asset('storage/' . $ijin->attachments['return']) }}" target="_blank"
+                            class="text-blue-500 underline">Lihat Bukti Pengembalian</a>
+                    @endif
+                </div>
             </div>
-
-            @if ($ijin->pickup_attachment_link)
-                <a href="{{ asset('storage/' . $ijin->pickup_attachment_link) }}" target="_blank"
-                    class="text-blue-500 underline">Lihat Bukti penjemputan</a>
-            @endif
-            @if ($ijin->return_attachment_link)
-                <a href="{{ asset('storage/' . $ijin->return_attachment_link) }}" target="_blank"
-                    class="text-blue-500 underline">Lihat Bukti pengembalian</a>
-            @endif
+            <div>
+                <div class="font-semibold">Catatan</div>
+                <div>: {{ $ijin->getNotesAttribute($ijin->notes) }}</div>
+            </div>
         </div>
 
         <!-- Bagian Verifikasi dan Validasi -->
         <div class="flex flex-col space-y-4">
-            @if ($ijin->verify_status == 0)
+            @if ($ijin->status == 'wait_approval')
                 @can('verifikasi izin')
                     <form action="{{ route('ijin.verify', $ijin->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
-                        <label for="return_date" class="block text-sm font-medium text-gray-700">Tanggal
+
+                        <label for="date_return" class="block text-sm font-medium text-gray-700">Tanggal
                             Pengembalian:</label>
-                        <input type="date" name="date_return" id="date_return" value="{{ $ijin->date_return }}" required
+                        <input type="date" name="date_return" id="date_return" value="{{ $ijin->date_return }}"
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-                        <x-submit-button class="mt-2">Setujui Izin</x-submit-button>
+
+                        <label for="notes" class="block text-sm font-medium text-gray-700">Catatan:</label>
+                        <textarea name="notes" id="notes" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
+
+                        <div class="flex justify-between mx-4 mt-2">
+                            <!-- Tombol Setujui -->
+                            <button type="submit" name="action" value="approve"
+                                class="bg-green-500 text-white py-2 px-4 rounded-md">Setujui Izin</button>
+
+                            <!-- Tombol Tolak -->
+                            <button type="submit" name="action" value="reject"
+                                class="bg-red-500 text-white py-2 px-4 rounded-md">Tolak Izin</button>
+                        </div>
                     </form>
                 @endcan
-            @elseif ($ijin->verify_status == 1 && $ijin->status == 0)
+            @elseif ($ijin->status == 'approved')
                 @can('validasi jemput')
                     <form action="{{ route('ijin.pickup', $ijin->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -92,7 +93,7 @@
                         <x-submit-button>Setujui Jemput</x-submit-button>
                     </form>
                 @endcan
-            @elseif ($ijin->verify_status == 1 && $ijin->status == 1)
+            @elseif ($ijin->status == 'picked_up')
                 @can('validasi kembali')
                     <form action="{{ route('ijin.return', $ijin->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -101,8 +102,8 @@
                         <div class="m-4">
                             <label for="return_attachment" class="block text-sm font-medium text-gray-700">Bukti
                                 Dikembalikan</label>
-                            <button type="button" id="toggle-camera" class="mb-2 bg-blue-500 text-white py-1 px-4 rounded">Turn Camera
-                                On</button>
+                            <button type="button" id="toggle-camera"
+                                class="mb-2 bg-blue-500 text-white py-1 px-4 rounded">Turn Camera On</button>
                             <button type="button" id="toggle-front-return-camera"
                                 class="mt-2 bg-gray-500 text-white py-1 px-4 rounded">Switch Camera</button>
                             <video id="return-video" width="100%" height="auto" autoplay class="hidden"></video>
@@ -129,25 +130,16 @@
             max-width: 640px;
         }
 
-        /* Style for images */
         .object-fit {
             width: 100%;
             height: auto;
-            /* Maintain aspect ratio */
             object-fit: contain;
-            /* Fit the image inside the container while preserving aspect ratio */
         }
     </style>
 
     <script>
         function setupCamera(videoElement, captureButton, canvasElement, photoElement, hiddenInput, toggleFront,
             toggleButton) {
-            if (!videoElement || !captureButton || !canvasElement || !photoElement || !hiddenInput || !toggleFront || !
-                toggleButton) {
-                console.error("One or more elements not found. Ensure all IDs are correct.");
-                return;
-            }
-
             let stream = null;
             let usingFrontCamera = false;
             let cameraOn = false;
@@ -158,7 +150,7 @@
                             facingMode
                         }
                     })
-                    .then((newStream) => {
+                    .then(newStream => {
                         stream = newStream;
                         videoElement.srcObject = stream;
                         videoElement.classList.remove('hidden');
@@ -166,9 +158,7 @@
                         toggleButton.textContent = "Turn Camera Off";
                         cameraOn = true;
                     })
-                    .catch((error) => {
-                        console.error("Error accessing camera:", error);
-                    });
+                    .catch(error => console.error("Error accessing camera:", error));
             }
 
             function stopCamera() {
@@ -200,7 +190,6 @@
 
             captureButton.addEventListener('click', () => {
                 const context = canvasElement.getContext('2d');
-                // Menyesuaikan ukuran canvas berdasarkan ukuran video
                 canvasElement.width = videoElement.videoWidth;
                 canvasElement.height = videoElement.videoHeight;
 
@@ -210,14 +199,12 @@
                 photoElement.classList.remove('hidden');
                 hiddenInput.value = dataURL;
             });
-
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const verifyStatus = @json($ijin->verify_status);
             const status = @json($ijin->status);
 
-            if (verifyStatus == 1 && status == 0) {
+            if (status === 'approved') {
                 setupCamera(
                     document.getElementById('pickup-video'),
                     document.getElementById('capture-pickup'),
@@ -227,8 +214,7 @@
                     document.getElementById('toggle-front-pickup-camera'),
                     document.getElementById('toggle-camera')
                 );
-            }
-            if (verifyStatus == 1 && status == 1) {
+            } else if (status === 'picked_up') {
                 setupCamera(
                     document.getElementById('return-video'),
                     document.getElementById('capture-return'),

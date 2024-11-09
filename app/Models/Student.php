@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class student extends Model
+class Student extends Model
 {
     use HasFactory;
 
@@ -15,8 +15,16 @@ class student extends Model
         'id',
         'student_class_id',
         'name',
+        'born_date',
+        'address',
         'username',
+        'gender'
     ];
+
+    protected $casts = [
+        'born_date' => 'datetime',
+    ];
+    
 
     public function ijins(): HasMany
     {
@@ -26,5 +34,14 @@ class student extends Model
     public function studentClass(): BelongsTo
     {
         return $this->belongsTo(StudentClass::class);
+    }
+
+    public function getGenderLabelAttribute()
+    {
+        return match ($this->gender) {
+            'male' => 'Laki-laki',
+            'female' => 'Perempuan',
+            default => 'Tidak Diketahui',  
+        };
     }
 }
