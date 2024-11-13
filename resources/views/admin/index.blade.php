@@ -3,16 +3,17 @@
         <!-- Dashboard Cards -->
         <div class="w-full sm:w-2/3 lg:w-1/2 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <!-- Card 1: Siswa Terdaftar -->
-            <div
-                class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
+            <div class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-400 shadow-lg flex flex-col items-center p-4 hover:shadow-2xl transition-shadow duration-300">
                 <img src="assets/admin/student.svg" class="w-12 h-12 mr-3" alt="Student Icon">
-                <div>
-                    <div class="mb-">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="">
                         <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Siswa Terdaftar</span></p>
-                        <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Kelas Terdaftar</span></p>
+                        <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Siswa</a>
                     </div>
-                    <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Siswa</a>
-                    <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Kelas</a>
+                    <div>
+                        <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Kelas Terdaftar</span></p>
+                        <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Kelas</a>
+                    </div>
                 </div>
             </div>
 
@@ -27,6 +28,17 @@
                 </div>
             </div>
 
+            <!-- Card 4: Whacenter Terdaftar -->
+            <div class="rounded-lg bg-gradient-to-r from-green-500 to-green-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
+                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3" alt="User Icon">
+                <div>
+                    <p class="text-white text-lg font-semibold">WhaCenter</p>
+                    <p class="text-white">Device : {{ $whacenter->name }}</p>
+                    <p class="text-white">Status : Default</p>
+                    <a href="{{ route('admin.whacenter.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Pengaturan</a>
+                </div>
+            </div>
+
             <!-- Card 6: Izin -->
             <div
                 class="rounded-lg bg-gradient-to-r from-red-500 to-red-400 shadow-lg flex items-center p-5 hover:shadow-2xl transition-shadow duration-300 space-x-4">
@@ -35,27 +47,51 @@
                     <div class="flex items-center space-x-2">
                         <div
                             class="bg-gray-500 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
-                            99
+                            {{ $totalIzinWaiting }}
                         </div>
                         <p class="text-white text-sm">Menunggu Disetujui</p>
                     </div>
                     <div class="flex items-center space-x-2">
                         <div
                             class="bg-green-500 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
-                            20
+                            {{ $totalIzinApproved }}
                         </div>
                         <p class="text-white text-sm">Disetujui</p>
                     </div>
                     <div class="flex items-center space-x-2">
                         <div
                             class="bg-red-600 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
-                            99
+                            {{ $totalIzinRejected }}
                         </div>
                         <p class="text-white text-sm">Ditolak</p>
                     </div>
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
+                            {{ $totalIzinDone }}
+                        </div>
+                        <p class="text-white text-sm">Selesai</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
+                            {{ $totalStudentsWentHome }}
+                        </div>
+                        <p class="text-white text-sm">Siswa Pulang</p>
+                    </div>
                 </div>
             </div>
-
+            
+            <!-- Card 4: Whacenter Terdaftar -->
+            <div class="rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
+                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3" alt="User Icon">
+                <div>
+                    <p class="text-white text-lg font-semibold">Roles & Permission</p>
+                    <p class="text-white">Role : {{ $totalRole }}</p>
+                    <p class="text-white">Permission : {{ $totalPermission }}</p>
+                    <a href="{{ route('admin.role.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Pengaturan</a>
+                </div>
+            </div>
         </div>
 
         <!-- User Management Table with Search -->
@@ -73,6 +109,7 @@
                     <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
                         <th class="py-3 px-6 text-left">Name</th>
                         <th class="py-3 px-6 text-left">Role</th>
+                        <th class="py-3 px-6 text-left">Phone</th>
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -84,6 +121,9 @@
                             </td>
                             <td class="py-3 px-6 text-left">
                                 {{ $user->roles->pluck('name')->join(', ') }}
+                            </td>
+                            <td>
+                                <a href="https://wa.me/62{{ $user->phoneNumber }}" target="_blank">{{ $user->phoneNumber }}</a>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">

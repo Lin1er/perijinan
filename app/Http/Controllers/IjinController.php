@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use App\Events\IjinCreated;
+use App\Jobs\IjinCreated as JobsIjinCreated;
+use App\Jobs\IjinConfirmated as JobsIjinConfirmated;
 
 class IjinController extends Controller
 {
@@ -50,7 +51,8 @@ class IjinController extends Controller
         if ($request->hasFile('medic_attachment')) {
             $attachments['medic'] = $request->file('medic_attachment')->store('medic_attachments', 'public');
         }
-
+        
+        
         $ijin = Ijin::create([
             'user_id' => Auth::id(),
             'student_id' => $request->student_id,
@@ -60,8 +62,9 @@ class IjinController extends Controller
             'status' => 'wait_approval',
             'attachments' => $attachments,
         ]);
-
-        event(new IjinCreated($ijin));
+        
+        dispatch(new JobsIjinCreated($ijin));
+        
         return back()->with('success', 'Data izin berhasil disimpan!');
     }
 
@@ -85,6 +88,8 @@ class IjinController extends Controller
             'status' => $status,
             'notes' => $request->notes
         ]);
+
+        dispatch(new JobsIjinConfirmated($ijin));
     
         // Redirect dengan pesan sukses
         return redirect()->route('dashboard')->with('success', 'Izin berhasil diperbarui!');

@@ -47,6 +47,8 @@ return [
 
     'username' => 'email',
 
+    'phoneNumber' => 'phoneNumber',
+
     'email' => 'email',
 
     /*

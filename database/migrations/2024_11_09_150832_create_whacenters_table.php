@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('whacenters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('whacenter_id');
+            $table->string('device_id');
+            $table->boolean('default')->default(0);
             $table->timestamps();
         });
     }

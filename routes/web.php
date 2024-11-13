@@ -46,7 +46,26 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::patch('/admin/{student}', [AdminController::class, 'studentUpdate'])->name('admin.student.update');
     Route::delete('/admin/{student}', [AdminController::class, 'studentDestroy'])->name('admin.student.destroy');
 
-    Route::get('/admin/whacenter', [WhacenterController::class, 'index'])->name('admin.whacenter.index');
+    Route::get('/whacenter', [WhacenterController::class, 'index'])->name('admin.whacenter.index');
+    Route::get('/whacenter/create', [WhacenterController::class, 'create'])->name('admin.whacenter.create');
+    Route::post('/whacenter/store', [WhacenterController::class, 'store'])->name('admin.whacenter.store');
+    Route::get('/whacenter/{whacenter}/edit', [WhacenterController::class, 'edit'])->name('admin.whacenter.edit');
+    Route::patch('/whacenter/{whacenter}', [WhacenterController::class, 'update'])->name('admin.whacenter.update');
+    Route::delete('/whacenter/{whacenter}', [WhacenterController::class, 'destroy'])->name('admin.whacenter.destroy');
+
+    Route::get('/role', [AdminController::class, 'roleIndex'])->name('admin.role.index');
+    Route::get('/role/create', [AdminController::class, 'roleCreate'])->name('admin.role.create');
+    Route::get('/role/{role}', [AdminController::class, 'roleShow'])->name('admin.role.show');
+    Route::post('/role/store', [AdminController::class, 'roleStore'])->name('admin.role.store');
+    Route::get('/role/{role}/edit', [AdminController::class, 'roleEdit'])->name('admin.role.edit');
+    Route::patch('/role/{role}', [AdminController::class, 'roleUpdate'])->name('admin.role.update');
+    Route::delete('/role/{role}', [AdminController::class, 'roleDestroy'])->name('admin.role.destroy');
+
+    Route::get('/permission/create', [AdminController::class, 'permissionCreate'])->name('admin.permission.create');
+    Route::post('/permission/store', [AdminController::class, 'permissionStore'])->name('admin.permission.store');
+    Route::get('/permission/{permission}/edit', [AdminController::class, 'permissionEdit'])->name('admin.permission.edit');
+    Route::patch('/permission/{permission}', [AdminController::class, 'permissionUpdate'])->name('admin.permission.update');
+    Route::delete('/permission/{permission}', [AdminController::class, 'permissionDestroy'])->name('admin.permission.destroy');
     
     Route::get('/admin/user', [AdminController::class, 'userIndex'])->name('admin.user.index');
     Route::get('/admin/user/{user}', [AdminController::class, 'userShow'])->name('admin.user.show');
@@ -55,7 +74,7 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::delete('/admin/user/{user}', [AdminController::class, 'userDestroy'])->name('admin.user.destroy');
 });
 
-Route::get('/admin/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
+Route::get('/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
 
 
 Route::get('/pdfdev', function(){

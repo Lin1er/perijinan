@@ -1,26 +1,67 @@
 <x-app-layout>
-    <table class="w-full max-w-screen text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-500 uppercase bg-white-50 dark:bg-white-500 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-2 py-3">Nama</th>
-                <th scope="col" class="px-2 py-3">ID</th>
-            </tr>
-        </thead>
-        <tbody id="ijinTable">
-            @forelse ($whacenters as $whacenter)
-                <tr class="border-b dark:bg-white-400 dark:border-white-400 dark:hover:bg-white-400 cursor-pointer">
-                    <th scope="row" class="px-2 py-4 font-medium text-black">
-                        {{ $whacenter->name }}
-                    </th>
-                    <td class="px-3 py-4">{{ $whacenter->whacenter_id }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                        Tidak ada data
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+    <div class="flex justify-center mt-4">
+        <div class="w-full sm:w-3/4 lg:w-2/3 bg-white shadow-lg rounded-lg p-6">
+            <div class="flex justify-between">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Manage Whacenter Devices</h2>
+                <div>
+                    <a href="{{ route('admin.whacenter.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Add</a>
+                </div>
+            </div>
+        
+            {{-- <!-- Search Bar -->
+            <div class="mb-4">
+                <input type="text" id="searchInput" placeholder="Search users by name or role..."
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div> --}}
+        
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
+                        <th class="py-3 px-6 text-left">Name</th>
+                        <th class="py-3 px-6 text-left">Device ID</th>
+                        <th class="py-3 px-6 text-left">Status</th>
+                        <th class="py-3 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable" class="text-gray-600 text-sm font-light">
+                    @forelse ( $whacenters as $whacenter )
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <span class="font-medium">{{ $whacenter->name }}</span>
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            {{ $whacenter->device_id }}
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            {{ $whacenter->getDefaultStatus($whacenter->default) }}
+                        </td>
+                        <td class="py-3 px-6 text-center">
+                            <div class="flex item-center justify-center">
+                                <a href="{{ route('admin.whacenter.edit', $whacenter->id) }}"
+                                    class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                    ✏️
+                                </a>
+                                <form action="{{ route('admin.whacenter.destroy', $whacenter->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                        🗑️
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td class="py-3 px-6 text-center" colspan="3">
+                            <span class="font-medium text-gray-500">No whacenter devices found</span>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </x-app-layout>

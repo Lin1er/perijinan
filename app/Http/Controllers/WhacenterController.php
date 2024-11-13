@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWhacenterRequest;
 use App\Http\Requests\UpdateWhacenterRequest;
 use App\Models\Whacenter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class WhacenterController extends Controller
@@ -18,20 +19,12 @@ class WhacenterController extends Controller
         return view('admin.whacenter.index', compact('whacenters'));
     }
 
-    public function scanQrCode(Whacenter $whacenter)
-    {
-        $url = "https://app.whacenter.com/api/qr?device_id="+$whacenter->device_id;
-        Http::post($url, [
-            'whacenter_id' => $whacenter->id
-        ]);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('admin.whacenter.create');
     }
 
     /**
@@ -39,7 +32,16 @@ class WhacenterController extends Controller
      */
     public function store(StoreWhacenterRequest $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'device_id' => 'required',
+        ]);
+        Whacenter::create([
+            'name' => $request->name,
+            'device_id' => $request->device_id,
+            'default' => 0
+        ]);
+        return redirect()->route('admin.whacenter.index');
     }
 
     /**
@@ -55,7 +57,7 @@ class WhacenterController extends Controller
      */
     public function edit(Whacenter $whacenter)
     {
-        //
+        return view('admin.whacenter.edit', compact('whacenter'));
     }
 
     /**
@@ -63,7 +65,16 @@ class WhacenterController extends Controller
      */
     public function update(UpdateWhacenterRequest $request, Whacenter $whacenter)
     {
-        //
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'device_id' => 'required',
+        'default' => 'required',
+    ]);
+
+    $whacenter->update($validatedData);
+
+    return redirect()->route('admin.whacenter.index')
+                     ->with('success', 'Whacenter updated successfully.');
     }
 
     /**
@@ -71,6 +82,9 @@ class WhacenterController extends Controller
      */
     public function destroy(Whacenter $whacenter)
     {
-        //
+    $whacenter->delete();
+
+    return redirect()->route('admin.whacenter.index')
+                     ->with('success', 'Whacenter deleted successfully.');
     }
 }

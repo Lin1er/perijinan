@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $roleGuru = Role::create(['name' => 'guru']);
         $roleSatpam = Role::create(['name' => 'satpam']);
         $rolesuperAdmin = Role::create(['name'=> 'Super Admin']);
+        Role::create(['name' => 'wakaAsrama']);
 
         // Membuat izin
         Permission::create(['name' => 'mengajukan izin']);
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
         $orangtua = User::create([
             'name' => 'orang tua Test',
             'email' => 'orangtua@example.com',
+            'phoneNumber' => '081111111',
             'password' => 'orangtua', // Ganti dengan password yang aman
         ]);
         $orangtua->assignRole('orangtua');
@@ -46,6 +48,7 @@ class DatabaseSeeder extends Seeder
         $guru = User::create([
             'name' => 'Guru Test',
             'email' => 'guru@example.com',
+            'phoneNumber' => '0822222222',
             'password' => 'guru', // Ganti dengan password yang aman
         ]);
         $guru->assignRole('guru');
@@ -53,20 +56,15 @@ class DatabaseSeeder extends Seeder
         $satpam = User::create([
             'name' => 'Satpam Test',
             'email' => 'satpam@example.com',
+            'phoneNumber' => '08333333333',
             'password' => 'satpam', // Ganti dengan password yang aman
         ]);
         $satpam->assignRole('satpam');
 
-        $superAdmin = User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@example.com',
-            'password' => 'superadmin', // Ganti dengan password yang aman
-        ]);
-        $superAdmin->assignRole('Super Admin');
-
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
+            'phoneNumber' => '08123456789',
             'password' => 'admin', // Ganti dengan password yang aman
         ]);
 

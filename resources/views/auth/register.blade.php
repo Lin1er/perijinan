@@ -28,6 +28,12 @@
                                 <x-label for="name" value="{{ __('Name') }}" />
                                 <x-input id="name" class="block mt-1 w-full rounded-md" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                             </div>
+                                                        
+                            <!-- PhoneNumber -->
+                            <div class="mb-4">
+                                <x-label for="phoneNumber" value="{{ __('Phone Number') }}" />
+                                <x-input id="phoneNumber" class="block mt-1 w-full rounded-md" type="text" name="phoneNumber" :value="old('phoneNumber')" required autofocus autocomplete="phoneNumber" />
+                            </div>
 
                             <!-- Email Address -->
                             <div class="mb-4">
