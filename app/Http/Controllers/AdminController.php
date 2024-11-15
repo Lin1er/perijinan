@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\StudentClass;
 use App\Models\User;
 use App\Models\Whacenter;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -147,6 +148,8 @@ class AdminController extends Controller
 
     public function kelasIndex()
     {
+        $url = Storage::url('logo.png');
+        dd($url);
         return view('admin.kelas.index');
     }
 

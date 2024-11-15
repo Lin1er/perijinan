@@ -1,8 +1,8 @@
 <x-guest-layout>
     <div class="min-h-screen bg-local bg-no-repeat bg-cover bg-center" style="background-image: url('/images/iclt_gerbang.jpeg')">
-        <div class="backdrop-blur-sm bg-white/30 w-screen h-screen flex flex-col ">
+        <div class="backdrop-blur-sm bg-white/30 w-screen h-screen flex flex-col overflow-hidden">
             <!-- Header -->
-            <header class="flex justify-between items-center p-5 bg-gray-300 bg-opacity-70 shadow-lg">
+            <header class="flex justify-between items-center p-3 bg-gray-300 bg-opacity-70 shadow-lg">
                 <h1 class="text-2xl font-bold text-gray-800">Aplikasi Perizinan<br/>Siswa</h1>
                 <div class="space-x-4">
                     <img src="logos/ester.svg" class="w-20 h-20" alt="app">
@@ -39,7 +39,7 @@
             </div>
 
             {{-- Footer content --}}
-            <div class="flex flex-row justify-between p-2">
+            <div class="flex flex-row justify-between px-2">
                 <div class="flex flex-col items-start">
                     <img src="logos/ester.svg" alt="Estersena">
                     <p>Created By: Estersena</p>

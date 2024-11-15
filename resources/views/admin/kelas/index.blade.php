@@ -1,1 +1,0 @@
-ayolah bisaaaaaa

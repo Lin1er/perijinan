@@ -36,11 +36,11 @@ class IjinCreated
             $phoneNumber = $this->ijin->user->phoneNumber;  // Ganti dengan nomor tujuan
             $message = "Izin baru telah diajukan oleh " . $this->ijin->user->name . " dengan keperluan: " . $this->ijin->reason . " selengkapnya silahkan cek di aplikasi";
 
-            $response = Http::timeout(60)->post('https://app.whacenter.com/api/send', [
+            $response = Http::post('https://app.whacenter.com/api/send', [
                 'device_id' => $deviceId,
                 'number' => $phoneNumber,
                 'message' => $message,
-                // 'file' => 'https://directly-liberal-buzzard.ngrok-free.app/storage/medic_attachments/N8JHaa3mZKlnoPBEBvLcmPrQiyWTdRH3EfBFkdis.jpg',
+                'file' => 'https://directly-liberal-buzzard.ngrok-free.app/storage/medic_attachments/N8JHaa3mZKlnoPBEBvLcmPrQiyWTdRH3EfBFkdis.jpg',
             ]);
 
             if ($response->failed()) {

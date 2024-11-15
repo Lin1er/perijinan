@@ -1,10 +1,10 @@
 <x-app-layout>
     <div class="flex flex-col items-center mt-10 px-4">
         <!-- Dashboard Cards -->
-        <div class="w-full sm:w-2/3 lg:w-1/2 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div class="w-full sm:w-2/3 lg:w-fit grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <!-- Card 1: Siswa Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-400 shadow-lg flex flex-col items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/student.svg" class="w-12 h-12 mr-3" alt="Student Icon">
+                <img src="assets/admin/student.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="Student Icon">
                 <div class="grid grid-cols-2 gap-2">
                     <div class="">
                         <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Siswa Terdaftar</span></p>
@@ -19,7 +19,7 @@
 
             <!-- Card 3: Pengguna Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-purple-500 to-purple-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3" alt="User Icon">
+                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">{{ $totalUsers }} <span class="text-white text-sm">Pengguna Terdaftar</span></p>
                     <p class="text-white text-sm">{{ $totalTeachers }} Guru</p>
@@ -30,7 +30,7 @@
 
             <!-- Card 4: Whacenter Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-green-500 to-green-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3" alt="User Icon">
+                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">WhaCenter</p>
                     <p class="text-white">Device : {{ $whacenter->name }}</p>
@@ -42,7 +42,7 @@
             <!-- Card 6: Izin -->
             <div
                 class="rounded-lg bg-gradient-to-r from-red-500 to-red-400 shadow-lg flex items-center p-5 hover:shadow-2xl transition-shadow duration-300 space-x-4">
-                <img src="assets/admin/teacher.svg" class="w-14 h-14" alt="Teacher Icon">
+                <img src="assets/admin/teacher.svg" class="w-14 h-14 hidden sm:block" alt="Teacher Icon">
                 <div class="flex flex-col space-y-2">
                     <div class="flex items-center space-x-2">
                         <div
@@ -84,7 +84,7 @@
             
             <!-- Card 4: Whacenter Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3" alt="User Icon">
+                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">Roles & Permission</p>
                     <p class="text-white">Role : {{ $totalRole }}</p>
@@ -109,23 +109,23 @@
                     <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
                         <th class="py-3 px-6 text-left">Name</th>
                         <th class="py-3 px-6 text-left">Role</th>
-                        <th class="py-3 px-6 text-left">Phone</th>
+                        <th class="py-3 px-6 text-left hidden sm:block">Phone</th>
                         <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="userTable" class="text-gray-600 text-sm font-light">
                     @foreach ($users as $user)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                <span class="font-medium">{{ $user->name }}</span>
+                            <td class="py-3  text-left whitespace-nowrap">
+                                <span class="font-medium" title="{{ $user->name }}">{{ Str::limit($user->name, 20) }}</span>
                             </td>
-                            <td class="py-3 px-6 text-left">
+                            <td class="py-3 px-3 text-left">
                                 {{ $user->roles->pluck('name')->join(', ') }}
                             </td>
-                            <td>
+                            <td class="hidden sm:block">
                                 <a href="https://wa.me/62{{ $user->phoneNumber }}" target="_blank">{{ $user->phoneNumber }}</a>
                             </td>
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 text-center">
                                 <div class="flex item-center justify-center">
                                     <a href="{{ route('admin.user.edit', $user->id) }}"
                                         class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">

@@ -17,25 +17,25 @@
             <table class="w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
-                        <th class="py-3 px-6 text-left">Name</th>
-                        <th class="py-3 px-6 text-left">Device ID</th>
-                        <th class="py-3 px-6 text-left">Status</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
+                        <th class="py-3 pl-3 text-left">Name</th>
+                        <th class="py-3 text-left hidden sm:block">Device ID</th>
+                        <th class="py-3 text-left">Status</th>
+                        <th class="py-3 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="userTable" class="text-gray-600 text-sm font-light">
                     @forelse ( $whacenters as $whacenter )
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                        <td class="py-3 text-left whitespace-nowrap pl-3">
                             <span class="font-medium">{{ $whacenter->name }}</span>
                         </td>
-                        <td class="py-3 px-6 text-left">
+                        <td class="py-3 text-left hidden sm:block">
                             {{ $whacenter->device_id }}
                         </td>
-                        <td class="py-3 px-6 text-left">
+                        <td class="py-3 text-left">
                             {{ $whacenter->getDefaultStatus($whacenter->default) }}
                         </td>
-                        <td class="py-3 px-6 text-center">
+                        <td class="py-3 text-center">
                             <div class="flex item-center justify-center">
                                 <a href="{{ route('admin.whacenter.edit', $whacenter->id) }}"
                                     class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">

@@ -14,22 +14,22 @@
             <table class="w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
-                        <th class="py-3 px-6 text-left">Name</th>
-                        <th class="py-3 px-6 text-left">Permission</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
+                        <th class="py-3 pl-2 text-left">Name</th>
+                        <th class="py-3 text-left">Permission</th>
+                        <th class="py-3 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="roleTable" class="text-gray-600 text-sm font-light">
                     @foreach ($roles as $role)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <td class="py-3 text-left whitespace-nowrap pl-2">
                                 <span class="font-medium">{{ $role->name }}</span>
                             </td>
-                            <td class="py-3 px-6 text-left">
+                            <td class="py-3 text-left">
                                 {{ $role->permissions->pluck('name')->join(', ') }}
                             </td>
 
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 text-center">
                                 <div class="flex item-center justify-center">
                                     <a href="{{ route('admin.role.edit', $role->id) }}"
                                         class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
@@ -64,17 +64,17 @@
             <table class="w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600 text-sm uppercase leading-normal">
-                        <th class="py-3 px-6 text-left">Name</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
+                        <th class="py-3 text-left">Name</th>
+                        <th class="py-3 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="permissionTable" class="text-gray-600 text-sm font-light">
                     @foreach ($permissions as $permission)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <td class="py-3 text-left whitespace-nowrap">
                                 <span class="font-medium">{{ $permission->name }}</span>
                             </td>
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 text-center">
                                 <div class="flex item-center justify-center">
                                     <a href="{{ route('admin.permission.edit', $permission->id) }}"
                                         class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
