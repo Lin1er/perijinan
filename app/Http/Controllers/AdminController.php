@@ -17,8 +17,8 @@ class AdminController extends Controller
     public function index()
     {
         $totalStudents = Student::count();
-        $totalSatpam = User::role('satpam')->count();
         $totalUsers = User::count(); // Total semua pengguna
+        $totalSatpam = User::role('satpam')->count();
         $totalTeachers = User::role('guru')->count();
         $totalParents = User::role('orangtua')->count();
         $whacenter = Whacenter::where('default', 1)->first();
@@ -148,9 +148,43 @@ class AdminController extends Controller
 
     public function kelasIndex()
     {
-        $url = Storage::url('logo.png');
-        dd($url);
-        return view('admin.kelas.index');
+        $kelases = StudentClass::all();
+        return view('admin.kelas.index', compact('kelases'));
+    }
+    
+    public function kelasCreate(){
+        return view('admin.kelas.create');
+    }
+
+    public function kelasStore(Request $request){
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        StudentClass::create([
+            'name' => $request->name
+        ]);
+        return redirect()->route('admin.kelas.index');
+    }
+
+    public function kelasEdit(StudentClass $studentClass){
+        return view('admin.kelas.edit', compact('studentClass'));
+    }
+
+    public function kelasUpdate(Request $request, StudentClass $studentClass){
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $studentClass->update([
+            'name' => $request->name,
+        ]);
+        return redirect()->route('admin.kelas.index');
+    }
+
+    public function kelasDestroy(StudentClass $studentClass){
+        $studentClass->delete();
+        return redirect()->route('admin.kelas.index');
     }
 
     public function userDestroy(User $user)

@@ -31,8 +31,8 @@
 
                             <!-- Phone Number -->
                             <div class="mb-4">
-                                <x-label for="phone" value="{{ __('Phone Number') }}" />
-                                <x-input id="phone" class="block mt-1 w-full rounded-md" type="tel" name="phone" :value="old('phone')" required placeholder="08xxxxxxxxxx" pattern="[0-9]{10,13}" autocomplete="tel" />
+                                <x-label for="phoneNumber" value="{{ __('Phone Number') }}" />
+                                <x-input id="phoneNumber" class="block mt-1 w-full rounded-md" type="tel" name="phoneNumber" :value="old('phoneNumber')" required placeholder="08xxxxxxxxxx" pattern="[0-9]{10,13}" autocomplete="tel" />
                             </div>
 
                             <!-- Email Address -->

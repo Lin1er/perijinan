@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\IjinCreated as JobsIjinCreated;
 use App\Jobs\IjinConfirmated as JobsIjinConfirmated;
+use App\Jobs\StudentWentHome as JobsStudentWentHome;
 
 class IjinController extends Controller
 {
@@ -107,6 +108,8 @@ class IjinController extends Controller
             $ijin->status = 'picked_up';
             $ijin->save();
         }
+
+        dispatch(new JobsStudentWentHome($ijin));
 
         return redirect()->route('ijin.show', $ijin->id)->with('success', 'Bukti jemput berhasil disimpan.');
     }

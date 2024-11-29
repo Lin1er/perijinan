@@ -6,6 +6,7 @@
                 <div class="font-semibold">Username</div>
                 <div class="font-semibold">Kelas</div>
                 <div class="font-semibold">Alasan</div>
+                <div class="font-semibold">Diajukan Oleh</div>
                 <div class="font-semibold">Tanggal Keluar</div>
                 <div class="font-semibold">Tanggal Kembali</div>
                 <div class="font-semibold">Status Izin</div>
@@ -15,6 +16,7 @@
                 <div>: {{ $ijin->student->username }}</div>
                 <div>: {{ $ijin->student->studentClass->name }}</div>
                 <div>: {{ $ijin->reason }}</div>
+                <div>: {{ $ijin->user->name }}</div>
                 <div>: {{ $ijin->date_pick }}</div>
                 <div>: {{ $ijin->date_return }}</div>
                 <div>: {{ $ijin->getStatusLabelAttribute($ijin->status) }}</div>

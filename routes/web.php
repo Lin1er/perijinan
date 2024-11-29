@@ -67,6 +67,13 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::patch('/permission/{permission}', [AdminController::class, 'permissionUpdate'])->name('admin.permission.update');
     Route::delete('/permission/{permission}', [AdminController::class, 'permissionDestroy'])->name('admin.permission.destroy');
     
+    Route::get('/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
+    Route::get('/kelas/create', [AdminController::class, 'kelasCreate'])->name('admin.kelas.create');
+    Route::post('/kelas/store', [AdminController::class, 'kelasStore'])->name('admin.kelas.store');
+    Route::get('/kelas/{studentClass}/edit', [AdminController::class, 'kelasEdit'])->name('admin.kelas.edit');
+    Route::patch('/kelas/{studentClass}', [AdminController::class, 'kelasUpdate'])->name('admin.kelas.update');
+    Route::delete('/kelas/{studentClass}', [AdminController::class, 'kelasDestroy'])->name('admin.kelas.destroy');
+
     Route::get('/admin/user', [AdminController::class, 'userIndex'])->name('admin.user.index');
     Route::get('/admin/user/{user}', [AdminController::class, 'userShow'])->name('admin.user.show');
     Route::get('/admin/user/{user}/edit', [AdminController::class, 'userEdit'])->name('admin.user.edit');
@@ -74,7 +81,6 @@ Route::middleware(['auth', 'can:akses admin'])->group(function(){
     Route::delete('/admin/user/{user}', [AdminController::class, 'userDestroy'])->name('admin.user.destroy');
 });
 
-Route::get('/kelas', [AdminController::class, 'kelasIndex'])->name('admin.kelas.index');
 
 
 Route::get('/pdfdev', function(){

@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class IjinCreated
+class StudentWentHome
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,7 +35,7 @@ class IjinCreated
             $whacenter = Whacenter::where('default', 1)->firstOrFail();
             $deviceId = $whacenter->device_id;
             $phoneNumber = User::role('wakaAsrama')->first()->phoneNumber;
-            $message = "Izin baru telah diajukan oleh " . $this->ijin->user->name . ", dengan keperluan: " . $this->ijin->reason . ". selengkapnya silahkan cek di aplikasi";
+            $message = "Siswa " . $this->ijin->student->name . " telah pulang";
 
             $response = Http::post('https://app.whacenter.com/api/send', [
                 'device_id' => $deviceId,

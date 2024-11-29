@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <main class="flex-grow container mx-auto mt-12 text-center">
+    <main class="flex-grow container mx-auto sm:mt-12 text-center">
             <div class="flex flex-col items-left border border-blue-400 bg-blue-400 bg-opacity-50 p-4 rounded">
                 <div class="flex items-center">
                     <div class="mt-2" x-show="! photoPreview">
@@ -32,7 +32,7 @@
                                        placeholder="Search for items" value="{{ request('search') }}">
                             </div>
                             <select name="status" onchange="filterTable()"
-                                    class="pr-20 block px-3 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-white-600 dark:text-black dark:focus:ring-blue-00 dark:focus:border-blue-500">
+                                    class="w-fit block px-3 border border-gray-300 rounded-lg text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-white-600 dark:text-black dark:focus:ring-blue-00 dark:focus:border-blue-500">
                                 <option value="">All Status</option>
                                 <option value="wait_approval" {{ request('status') == 'wait_approval' ? 'selected' : '' }}>Menunggu Disetujui</option>
                                 <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui</option>
@@ -60,7 +60,7 @@
                     <tbody id="ijinTable">
                         @forelse ($ijins as $ijin)
                             <tr class="
-                                @if ($ijin->status == "returned")
+                                @if ($ijin->status == "approved")
                                     bg-green-300
                                     hover:bg-green-100
                                 @elseif ($ijin->status == "wait_approval")

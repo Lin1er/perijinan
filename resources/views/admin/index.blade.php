@@ -8,11 +8,11 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div class="">
                         <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Siswa Terdaftar</span></p>
-                        <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Siswa</a>
+                        <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur Siswa</a>
                     </div>
                     <div>
                         <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Kelas Terdaftar</span></p>
-                        <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Lihat Kelas</a>
+                        <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur Kelas</a>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
 
             <!-- Card 4: Whacenter Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-green-500 to-green-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
+                <img src="logos/whatsapp.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">WhaCenter</p>
                     <p class="text-white">Device : {{ $whacenter->name }}</p>
@@ -84,7 +84,7 @@
             
             <!-- Card 4: Whacenter Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-400 shadow-lg flex items-center p-4 hover:shadow-2xl transition-shadow duration-300">
-                <img src="assets/admin/universal.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
+                <img src="logos/user-role.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">Roles & Permission</p>
                     <p class="text-white">Role : {{ $totalRole }}</p>

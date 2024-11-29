@@ -34,7 +34,7 @@ class IjinConfirmated
             $whacenter = Whacenter::where('default', 1)->firstOrFail();
             $deviceId = $whacenter->device_id;
             $phoneNumber = $this->ijin->user->phoneNumber;  // Ganti dengan nomor tujuan
-            $message = "Izin telah di setujui atas nama " . $this->ijin->student->name . " dengan keperluan: " . $this->ijin->reason . ". Silahkan cek surat izin keluar nya di website";
+            $message = "Izin telah di setujui atas nama " . $this->ijin->student->name . " dengan keperluan: " . $this->ijin->reason . ". Silahkan cek surat izin di website";
 
             $response = Http::timeout(60)->post('https://app.whacenter.com/api/send', [
                 'device_id' => $deviceId,
