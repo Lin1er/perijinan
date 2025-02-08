@@ -21,14 +21,14 @@
                 <select id="student_id" name="student_id" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2">
                     <option value="" disabled selected>Pilih Siswa</option>
                     @foreach($students as $student)
-                        <option value="{{ $student->id }}" data-class="{{ $student->studentClass->name }}">{{ $student->username }}</option>
+                        <option value="{{ $student->id }}" data-class="{{ $student->studentClass->name }} | {{ $student->studentClass->batch }}">{{ $student->name }}</option>
                     @endforeach
                 </select>
             </div>
 
             <div class="mb-4">
-                <label for="class" class="block text-gray-700 text-sm font-bold mb-2">Kelas</label>
-                <input type="text" id="class" name="class" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" placeholder="Masukkan Kelas" readonly>
+                <label for="class" class="block text-gray-700 text-sm font-bold mb-2">Angkatan</label>
+                <input type="text" id="class" name="class" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" placeholder="Masukkan Angkatan" readonly>
             </div>
 
             <div class="mb-4">

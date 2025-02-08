@@ -13,8 +13,9 @@ class Ijin extends Model
         'student_id',
         'user_id',
         'reason',
-        'date_return',
         'date_pick',
+        'date_return',
+        'date_returned',
         'status',
         'attachments',
         'notes',
@@ -23,7 +24,8 @@ class Ijin extends Model
     protected $casts = [
         'attachments' => 'json',
         'date_pick' => 'datetime',
-        'date_return' => 'datetime'
+        'date_return' => 'datetime',
+        'date_returned' => 'datetime'
     ];
 
     public function student()

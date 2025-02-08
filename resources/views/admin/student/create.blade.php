@@ -40,9 +40,9 @@
                 {{-- @foreach ($classes as $class)
                     {{ $class->id, $class->name }}
                 @endforeach --}}
-                <label for="student_class_id" class="block text-gray-700 text-sm font-bold mb-2">Kelas</label>
+                <label for="student_class_id" class="block text-gray-700 text-sm font-bold mb-2">Angkatan</label>
                 <select name="student_class_id" class="form-control border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500 w-full p-2" required>
-                    <option value="" disabled selected>Pilih Kelas</option>
+                    <option value="" disabled selected>Pilih Angkatan</option>
                     @foreach($classes as $class)
                         <option value="{{ $class->id }}">{{ $class->name }}</option>
                     @endforeach

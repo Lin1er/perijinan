@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ijin;
 use App\Models\User;
-use App\Models\Student;
-use App\Models\StudentClass;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -21,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $roleOrangtua = Role::create(['name' => 'orangtua']);
         $roleGuru = Role::create(['name' => 'guru']);
         $roleSatpam = Role::create(['name' => 'satpam']);
-        $rolesuperAdmin = Role::create(['name'=> 'Super Admin']);
-        Role::create(['name' => 'wakaAsrama']);
+        $rolesuperAdmin = Role::create(['name' => 'Super Admin']);
+        $waka = Role::create(['name' => 'wakaAsrama']);
 
         // Membuat izin
         Permission::create(['name' => 'mengajukan izin']);
@@ -33,33 +30,9 @@ class DatabaseSeeder extends Seeder
 
         // Memberikan izin ke peran masing-masing
         $roleOrangtua->givePermissionTo('mengajukan izin');
-        $roleGuru->givePermissionTo(['verifikasi izin','akses admin']);
+        $roleGuru->givePermissionTo(['verifikasi izin', 'akses admin']);
         $roleSatpam->givePermissionTo(['validasi jemput', 'validasi kembali']);
-
-        // Membuat user percobaan untuk Satpam dan Guru
-        $orangtua = User::create([
-            'name' => 'orang tua Test',
-            'email' => 'orangtua@example.com',
-            'phoneNumber' => '081111111',
-            'password' => 'orangtua', // Ganti dengan password yang aman
-        ]);
-        $orangtua->assignRole('orangtua');
-
-        $guru = User::create([
-            'name' => 'Guru Test',
-            'email' => 'guru@example.com',
-            'phoneNumber' => '0822222222',
-            'password' => 'guru', // Ganti dengan password yang aman
-        ]);
-        $guru->assignRole('guru');
-
-        $satpam = User::create([
-            'name' => 'Satpam Test',
-            'email' => 'satpam@example.com',
-            'phoneNumber' => '08333333333',
-            'password' => 'satpam', // Ganti dengan password yang aman
-        ]);
-        $satpam->assignRole('satpam');
+        $waka->givePermissionTo('akses admin', 'mengajukan izin', 'verifikasi izin');
 
         $admin = User::create([
             'name' => 'Admin',
@@ -70,18 +43,9 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignRole('Super Admin');
 
-        StudentClass::create([
-            'name' => 'X',
-        ]);
-        StudentClass::create([
-            'name' => 'XI',
-        ]);
-        StudentClass::create([
-            'name' => 'XII',
-        ]);
-
-
-
-        Ijin::factory()->count(10)->create();
+        // User::factory()->count(10)->create();
+        // StudentClass::factory()->count(10)->create();
+        // Ijin::factory()->count(100)->create();
     }
 }
+

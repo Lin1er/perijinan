@@ -17,7 +17,7 @@ class StudentClassFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->numberBetween(9, 13),
+            'name' => $this->faker->numberBetween(1, 6),
         ];
     }
 }

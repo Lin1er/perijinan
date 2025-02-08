@@ -72,13 +72,13 @@
                             @endif
 
                             <!-- Submit Button -->
-                            <div class="flex items-center justify-end mt-4">
-                                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                                    {{ __('Already registered?') }}
+                            <div class="flex items-center justify-between mt-4">
+                                <a class="underline text-sm text-blue-600 hover:text-gray-900 backdrop-blur-lg p-1 rounded-lg" href="{{ route('login') }}">
+                                    {{ __('Sudah daftar akun?') }}
                                 </a>
 
                                 <x-button class="ml-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
-                                    {{ __('Register') }}
+                                    {{ __('Buat Akun') }}
                                 </x-button>
                             </div>
                         </form>

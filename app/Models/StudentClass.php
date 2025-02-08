@@ -11,6 +11,7 @@ class StudentClass extends Model
 
     protected $fillable = [
         'name',
+        'batch',
     ];
 
     public function students()

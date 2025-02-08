@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Jobs\IjinCreated as JobsIjinCreated;
 use App\Jobs\IjinConfirmated as JobsIjinConfirmated;
 use App\Jobs\StudentWentHome as JobsStudentWentHome;
+use App\Jobs\GenerateSuratIjin as JobsGenerateSuratIjin;
 
 class IjinController extends Controller
 {
@@ -66,7 +67,7 @@ class IjinController extends Controller
         
         dispatch(new JobsIjinCreated($ijin));
         
-        return back()->with('success', 'Data izin berhasil disimpan!');
+        return redirect()->route('dashboard')->with('success', 'Data izin berhasil disimpan!');
     }
 
     /**
@@ -90,7 +91,10 @@ class IjinController extends Controller
             'notes' => $request->notes
         ]);
 
-        dispatch(new JobsIjinConfirmated($ijin));
+        $action = $request->action == 'approve' ? 1 : 0;
+
+        dispatch(new JobsIjinConfirmated($ijin, $action));
+        dispatch(new JobsGenerateSuratIjin($ijin));
     
         // Redirect dengan pesan sukses
         return redirect()->route('dashboard')->with('success', 'Izin berhasil diperbarui!');
@@ -107,9 +111,9 @@ class IjinController extends Controller
             $ijin->attachments = array_merge($ijin->attachments ?? [], ['pickup' => $imageData]);
             $ijin->status = 'picked_up';
             $ijin->save();
+            dispatch(new JobsStudentWentHome($ijin));
         }
 
-        dispatch(new JobsStudentWentHome($ijin));
 
         return redirect()->route('ijin.show', $ijin->id)->with('success', 'Bukti jemput berhasil disimpan.');
     }
@@ -123,6 +127,7 @@ class IjinController extends Controller
             $imageData = $this->storeBase64Image($request->return_attachment_data, 'return');
             $ijin->attachments = array_merge($ijin->attachments ?? [], ['return' => $imageData]);
             $ijin->status = 'returned';
+            $ijin->date_returned = now();
             $ijin->save();
         }
 

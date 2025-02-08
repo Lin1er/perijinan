@@ -21,8 +21,8 @@
                             <h2 class="text-center text-3xl font-bold mb-10 text-black">Selamat Datang di Aplikasi<br>Perizinan Siswa</h2>
                             <!-- Buttons -->
                             <div class="flex flex-col justify-center gap-4">
-                                <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Login</a>
-                                <a href="{{ route('register') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Register</a>
+                                <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Masuk</a>
+                                <a href="{{ route('register') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">Buat Akun</a>
                             </div>
 
                         </div>

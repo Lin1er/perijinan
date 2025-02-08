@@ -18,9 +18,10 @@ class AdminController extends Controller
     {
         $totalStudents = Student::count();
         $totalUsers = User::count(); // Total semua pengguna
-        $totalSatpam = User::role('satpam')->count();
-        $totalTeachers = User::role('guru')->count();
-        $totalParents = User::role('orangtua')->count();
+        $totalSatpam = User::role('satpam')->count() ?: 0;
+        $totalTeachers = User::role('guru')->count() ?: 0;
+        $totalClasses = StudentClass::count();
+        $totalParents = User::role('orangtua')->count() ?: 0;
         $whacenter = Whacenter::where('default', 1)->first();
         $totalWhacenter = Whacenter::count();
         $totalRole = Role::count();
@@ -33,10 +34,12 @@ class AdminController extends Controller
         $totalIzinRejected = Ijin::where('status', 'rejected')->count();
         $totalIzinDone = Ijin::where('status', 'returned')->count();
 
+        $totalIjinLate = Ijin::where('date_return', '<', now()->format('Y-m-d'))->count();
+
         // dd($whacenter);
         $users = User::all();
 
-        return view('admin.index', compact('whacenter', 'totalStudents', 'totalSatpam', 'totalUsers', 'totalTeachers', 'users', 'totalParents', 'totalWhacenter', 'totalRole', 'totalPermission', 'totalStudentsWentHome', 'totalIzinWaiting', 'totalIzinApproved', 'totalIzinRejected', 'totalIzinDone'));
+        return view('admin.index', compact('whacenter', 'totalStudents', 'totalSatpam', 'totalUsers', 'totalTeachers', 'users', 'totalParents', 'totalWhacenter', 'totalRole', 'totalPermission', 'totalStudentsWentHome', 'totalIzinWaiting', 'totalIzinApproved', 'totalIzinRejected', 'totalIzinDone', 'totalIjinLate', 'totalClasses'));
     }
 
     public function studentIndex()
@@ -159,10 +162,12 @@ class AdminController extends Controller
     public function kelasStore(Request $request){
         $request->validate([
             'name' => 'required',
+            'batch' => 'required' 
         ]);
 
         StudentClass::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'batch' => $request->batch
         ]);
         return redirect()->route('admin.kelas.index');
     }
@@ -172,12 +177,10 @@ class AdminController extends Controller
     }
 
     public function kelasUpdate(Request $request, StudentClass $studentClass){
-        $request->validate([
-            'name' => 'required',
-        ]);
 
         $studentClass->update([
             'name' => $request->name,
+            'batch' => $request->batch
         ]);
         return redirect()->route('admin.kelas.index');
     }

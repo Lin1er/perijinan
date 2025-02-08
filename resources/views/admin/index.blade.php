@@ -5,14 +5,14 @@
             <!-- Card 1: Siswa Terdaftar -->
             <div class="rounded-lg bg-gradient-to-r from-blue-500 to-blue-400 shadow-lg flex flex-col items-center p-4 hover:shadow-2xl transition-shadow duration-300">
                 <img src="assets/admin/student.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="Student Icon">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="">
                         <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Siswa Terdaftar</span></p>
-                        <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur Siswa</a>
+                        <a href="{{ route('admin.student.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur</a>
                     </div>
                     <div>
-                        <p class="text-white text-lg font-semibold">{{ $totalStudents }} <span class="text-white text-sm">Kelas Terdaftar</span></p>
-                        <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur Kelas</a>
+                        <p class="text-white text-lg font-semibold">{{ $totalClasses }} <span class="text-white text-sm">Angkatan</span></p>
+                        <a href="{{ route('admin.kelas.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Atur</a>
                     </div>
                 </div>
             </div>
@@ -33,15 +33,18 @@
                 <img src="logos/whatsapp.svg" class="w-12 h-12 mr-3 hidden sm:block" alt="User Icon">
                 <div>
                     <p class="text-white text-lg font-semibold">WhaCenter</p>
-                    <p class="text-white">Device : {{ $whacenter->name }}</p>
-                    <p class="text-white">Status : Default</p>
+                    @if ($whacenter)
+                        <p class="text-white">Device : {{ $whacenter->name }}</p>
+                        <p class="text-white">Status : Default</p>
+                    @else
+                        <p class="text-white">Belum ada data</p>
+                    @endif
                     <a href="{{ route('admin.whacenter.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 transition ease-in-out duration-150">Pengaturan</a>
                 </div>
             </div>
 
             <!-- Card 6: Izin -->
-            <div
-                class="rounded-lg bg-gradient-to-r from-red-500 to-red-400 shadow-lg flex items-center p-5 hover:shadow-2xl transition-shadow duration-300 space-x-4">
+            <div class="rounded-lg bg-gradient-to-r from-red-500 to-red-400 shadow-lg flex items-center p-5 hover:shadow-2xl transition-shadow duration-300 space-x-4">
                 <img src="assets/admin/teacher.svg" class="w-14 h-14 hidden sm:block" alt="Teacher Icon">
                 <div class="flex flex-col space-y-2">
                     <div class="flex items-center space-x-2">
@@ -78,6 +81,13 @@
                             {{ $totalStudentsWentHome }}
                         </div>
                         <p class="text-white text-sm">Siswa Pulang</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="bg-red-600 rounded-full w-5 h-5 flex items-center justify-center text-white text-xs font-bold">
+                            {{ $totalIjinLate }}
+                        </div>
+                        <p class="text-white text-sm">Siswa Telat Kembali</p>
                     </div>
                 </div>
             </div>

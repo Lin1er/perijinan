@@ -1,46 +1,82 @@
 <x-app-layout>
-    <div class="w-full max-w-lg mx-auto bg-blue-100 rounded-lg p-4 shadow-md md:max-w-3xl">
-        <h1 class="text-2xl font-semibold p-4">Detail Izin</h1>
-        <div class="flex flex-row mb-4">
+    <div class="w-full max-w-3xl mx-auto bg-blue-100 rounded-lg p-6 shadow-md">
+        <div class="flex justify-between">
             <div>
-                <div class="font-semibold">Username</div>
-                <div class="font-semibold">Kelas</div>
-                <div class="font-semibold">Alasan</div>
-                <div class="font-semibold">Diajukan Oleh</div>
-                <div class="font-semibold">Tanggal Keluar</div>
-                <div class="font-semibold">Tanggal Kembali</div>
-                <div class="font-semibold">Status Izin</div>
-                <div class="font-semibold">Lampiran</div>
+                <h1 class="text-2xl font-semibold mb-6 text-blue-800">Detail Izin</h1>
             </div>
-            <div>
-                <div>: {{ $ijin->student->username }}</div>
-                <div>: {{ $ijin->student->studentClass->name }}</div>
-                <div>: {{ $ijin->reason }}</div>
-                <div>: {{ $ijin->user->name }}</div>
-                <div>: {{ $ijin->date_pick }}</div>
-                <div>: {{ $ijin->date_return }}</div>
-                <div>: {{ $ijin->getStatusLabelAttribute($ijin->status) }}</div>
-                <div class="flex flex-col">
-                    @if ($ijin->attachments['medic'] ?? null)
-                        <a href="{{ asset('storage/' . $ijin->attachments['medic']) }}" target="_blank"
-                            class="text-blue-500 underline">Lihat Lampiran Medis</a>
-                    @else
-                        Tidak Ada Lampiran Medis
-                    @endif
-                    @if ($ijin->attachments['pickup'] ?? null)
-                        <a href="{{ asset('storage/' . $ijin->attachments['pickup']) }}" target="_blank"
-                            class="text-blue-500 underline">Lihat Bukti Penjemputan</a>
-                    @endif
-                    @if ($ijin->attachments['return'] ?? null)
-                        <a href="{{ asset('storage/' . $ijin->attachments['return']) }}" target="_blank"
-                            class="text-blue-500 underline">Lihat Bukti Pengembalian</a>
-                    @endif
+            <div class="flex justify-end">
+                @can('admin')
+                    <form action="{{ route('ijin.destroy', $ijin->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Hapus
+                        </button>
+                    </form>
+                @endcan
+            </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-2 mb-6 text-gray-800">
+            <div class="font-semibold w-fit">Username:</div>
+            <div class="col-span-1">{{ $ijin->student->username }}</div>
+            <div class="font-semibold w-fit">Kelas:</div>
+            <div class="col-span-1">{{ $ijin->student->studentClass->name }}</div>
+            <div class="font-semibold col-span-1">Alasan:</div>
+            <div class="col-span-1">{{ $ijin->reason }}</div>
+            <div class="font-semibold col-span-1">Diajukan Oleh:</div>
+            <div class="col-span-1">{{ $ijin->user->name }}</div>
+            <div class="font-semibold col-span-1">Tanggal Keluar:</div>
+            <div class="col-span-1">{{ $ijin->date_pick->format('d-m-Y') }}</div>
+            <div class="font-semibold col-span-1">Tenggat Kembali:</div>
+        <div class="col-span-1">{{ $ijin->date_return->format('d-m-Y') }}</div>
+            @if ($ijin->date_returned)
+                <div class="font-semibold col-span-1">Tanggal Dikembalikan:</div>
+                <div class="col-span-1">
+                    {{ $ijin->date_returned 
+                        ? \Carbon\Carbon::parse($ijin->date_returned)
+                            ->timezone('Asia/Jakarta') // Mengubah timezone ke Jakarta
+                            ->locale('id')             // Mengatur bahasa ke Indonesia
+                            ->isoFormat('LLLL')        // Format tanggal dan waktu
+                        : '-' 
+                    }}
                 </div>
+            @endif
+            <div class="font-semibold col-span-1">Status Izin:</div>
+            <div class="col-span-1">
+                <span
+                    class="px-2 py-1 rounded text-white {{ $ijin->status == 'wait_approval' ? 'bg-yellow-500' : ($ijin->status == 'approved' ? 'bg-green-500' : 'bg-red-500') }}">
+                    {{ $ijin->getStatusLabelAttribute($ijin->status) }}
+                </span>
             </div>
-            <div>
-                <div class="font-semibold">Catatan</div>
-                <div>: {{ $ijin->getNotesAttribute($ijin->notes) }}</div>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800">Lampiran</h2>
+            <div class="flex flex-col space-y-2 mt-2">
+                @if ($ijin->attachments['medic'] ?? null)
+                    <a href="{{ asset('storage/' . $ijin->attachments['medic']) }}" target="_blank"
+                        class="text-blue-600 underline w-fit">Lihat Lampiran Medis</a>
+                @else
+                    <p class="text-gray-500">Tidak Ada Lampiran Medis</p>
+                @endif
+                @if ($ijin->attachments['pickup'] ?? null)
+                    <a href="{{ asset('storage/' . $ijin->attachments['pickup']) }}" target="_blank"
+                        class="text-blue-600 underline w-fit">Lihat Bukti Penjemputan</a>
+                @endif
+                @if ($ijin->attachments['return'] ?? null)
+                    <a href="{{ asset('storage/' . $ijin->attachments['return']) }}" target="_blank"
+                        class="text-blue-600 underline w-fit">Lihat Bukti Pengembalian</a>
+                @endif
+                @if (Storage::disk('public')->exists('surat_ijin/surat_ijin_' . $ijin->id . '.pdf'))
+                    <a href="{{ asset('storage/surat_ijin/surat_ijin_' . $ijin->id . '.pdf') }}" target="_blank"
+                        class="text-blue-600 underline w-fit">Lihat Surat Izin</a>
+                @endif
             </div>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800">Catatan</h2>
+            <p class="text-gray-700">{{ $ijin->getNotesAttribute($ijin->notes) }}</p>
         </div>
 
         <!-- Bagian Verifikasi dan Validasi -->
@@ -72,53 +108,11 @@
                 @endcan
             @elseif ($ijin->status == 'approved')
                 @can('validasi jemput')
-                    <form action="{{ route('ijin.pickup', $ijin->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PATCH')
-
-                        <div class="m-4">
-                            <label for="pickup_attachment" class="block text-sm font-medium text-gray-700">Bukti
-                                Dijemput</label>
-                            <button type="button" id="toggle-camera"
-                                class="mb-2 bg-blue-500 text-white py-1 px-4 rounded">Turn Camera On</button>
-                            <button type="button" id="toggle-front-pickup-camera"
-                                class="mt-2 bg-gray-500 text-white py-1 px-4 rounded">Switch Camera</button>
-                            <video id="pickup-video" width="100%" height="auto" autoplay class="hidden"></video>
-                            <button type="button" id="capture-pickup"
-                                class="mt-4 bg-green-500 text-white py-1 px-4 rounded hidden">Ambil Foto</button>
-
-                            <canvas id="pickup-canvas" width="100%" height="auto" class="hidden"></canvas>
-                            <img id="pickup-photo" class="mt-4 hidden object-fit" alt="Bukti Dijemput">
-                            <input type="hidden" name="pickup_attachment_data" id="pickup_attachment_data">
-                        </div>
-
-                        <x-submit-button>Setujui Jemput</x-submit-button>
-                    </form>
+                    <x-camera name="pickup" label="Bukti Dijemput" :route="route('ijin.pickup', $ijin->id)" />
                 @endcan
             @elseif ($ijin->status == 'picked_up')
                 @can('validasi kembali')
-                    <form action="{{ route('ijin.return', $ijin->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PATCH')
-
-                        <div class="m-4">
-                            <label for="return_attachment" class="block text-sm font-medium text-gray-700">Bukti
-                                Dikembalikan</label>
-                            <button type="button" id="toggle-camera"
-                                class="mb-2 bg-blue-500 text-white py-1 px-4 rounded">Turn Camera On</button>
-                            <button type="button" id="toggle-front-return-camera"
-                                class="mt-2 bg-gray-500 text-white py-1 px-4 rounded">Switch Camera</button>
-                            <video id="return-video" width="100%" height="auto" autoplay class="hidden"></video>
-                            <button type="button" id="capture-return"
-                                class="mt-4 bg-green-500 text-white py-1 px-4 rounded hidden">Ambil Foto</button>
-
-                            <canvas id="return-canvas" width="100%" height="auto" class="hidden"></canvas>
-                            <img id="return-photo" class="mt-4 hidden object-fit" alt="Bukti Dikembalikan">
-                            <input type="hidden" name="return_attachment_data" id="return_attachment_data">
-                        </div>
-
-                        <x-submit-button>Setujui Kembali</x-submit-button>
-                    </form>
+                    <x-camera name="return" label="Bukti Dikembalikan" route="{{ route('ijin.return', $ijin->id) }}" />
                 @endcan
             @endif
         </div>
@@ -138,95 +132,4 @@
             object-fit: contain;
         }
     </style>
-
-    <script>
-        function setupCamera(videoElement, captureButton, canvasElement, photoElement, hiddenInput, toggleFront,
-            toggleButton) {
-            let stream = null;
-            let usingFrontCamera = false;
-            let cameraOn = false;
-
-            function startCamera(facingMode) {
-                navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode
-                        }
-                    })
-                    .then(newStream => {
-                        stream = newStream;
-                        videoElement.srcObject = stream;
-                        videoElement.classList.remove('hidden');
-                        captureButton.classList.remove('hidden');
-                        toggleButton.textContent = "Turn Camera Off";
-                        cameraOn = true;
-                    })
-                    .catch(error => console.error("Error accessing camera:", error));
-            }
-
-            function stopCamera() {
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    stream = null;
-                    videoElement.classList.add('hidden');
-                    captureButton.classList.add('hidden');
-                    toggleButton.textContent = "Turn Camera On";
-                    cameraOn = false;
-                }
-            }
-
-            toggleFront.addEventListener('click', () => {
-                usingFrontCamera = !usingFrontCamera;
-                if (cameraOn) {
-                    stopCamera();
-                    startCamera(usingFrontCamera ? "user" : "environment");
-                }
-            });
-
-            toggleButton.addEventListener('click', () => {
-                if (cameraOn) {
-                    stopCamera();
-                } else {
-                    startCamera(usingFrontCamera ? "user" : "environment");
-                }
-            });
-
-            captureButton.addEventListener('click', () => {
-                const context = canvasElement.getContext('2d');
-                canvasElement.width = videoElement.videoWidth;
-                canvasElement.height = videoElement.videoHeight;
-
-                context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-                const dataURL = canvasElement.toDataURL('image/png');
-                photoElement.src = dataURL;
-                photoElement.classList.remove('hidden');
-                hiddenInput.value = dataURL;
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const status = @json($ijin->status);
-
-            if (status === 'approved') {
-                setupCamera(
-                    document.getElementById('pickup-video'),
-                    document.getElementById('capture-pickup'),
-                    document.getElementById('pickup-canvas'),
-                    document.getElementById('pickup-photo'),
-                    document.getElementById('pickup_attachment_data'),
-                    document.getElementById('toggle-front-pickup-camera'),
-                    document.getElementById('toggle-camera')
-                );
-            } else if (status === 'picked_up') {
-                setupCamera(
-                    document.getElementById('return-video'),
-                    document.getElementById('capture-return'),
-                    document.getElementById('return-canvas'),
-                    document.getElementById('return-photo'),
-                    document.getElementById('return_attachment_data'),
-                    document.getElementById('toggle-front-return-camera'),
-                    document.getElementById('toggle-camera')
-                );
-            }
-        });
-    </script>
 </x-app-layout>

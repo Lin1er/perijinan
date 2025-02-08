@@ -23,8 +23,8 @@ class IjinFactory extends Factory
             'student_id' => Student::factory(),       // Menggunakan factory untuk Student
             'user_id' => User::factory(),             // Menggunakan factory untuk User
             'reason' => $this->faker->sentence(),     // Alasan izin
-            'date_pick' => $this->faker->date(),      // Tanggal jemput
-            'date_return' => $this->faker->date(),    // Tanggal kembali
+            'date_pick' => $this->faker->dateTimeThisMonth(),      // Tanggal jemput
+            'date_return' => $this->faker->dateTimeThisMonth(),    // Tanggal kembali
             'status' => $this->faker->randomElement(['wait_approval', 'approved', 'rejected', 'picked_up', 'returned']),
             'notes' => $this->faker->optional()->sentence(), // Catatan izin
 

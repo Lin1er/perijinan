@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Class') }}
+            {{ __('Edit Angkatan') }}
         </h2>
     </x-slot>
 
@@ -15,9 +15,16 @@
 
                         <!-- Class Name -->
                         <div class="mb-4">
-                            <x-label for="name" :value="__('Class Name')" />
+                            <x-label for="name" :value="__('Nama Angkatan')" />
 
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name', $studentClass  ->name)" required autofocus />
+                        </div>
+
+                        <!-- Class Description -->
+                        <div class="mb-4">
+                            <x-label for="batch" :value="__('Angkatan Ke')" />
+
+                            <x-input id="batch" class="block mt-1 w-full" type="text" name="batch" :value="old('batch', $studentClass  ->batch)" required />
                         </div>
                         
                         <div class="flex items-center justify-end mt-4">

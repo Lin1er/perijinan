@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('reason');
-            $table->date('date_return');
             $table->date('date_pick');
+            $table->date('date_return');
+            $table->dateTime('date_returned')->nullable();
             $table->string('status')->default('wait_approval');  // Status tunggal untuk seluruh alur proses
             $table->json('attachments')->nullable();  // Menyimpan semua lampiran dalam format JSON
             $table->text('notes')->nullable();  // Catatan umum

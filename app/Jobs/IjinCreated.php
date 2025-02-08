@@ -35,7 +35,7 @@ class IjinCreated
             $whacenter = Whacenter::where('default', 1)->firstOrFail();
             $deviceId = $whacenter->device_id;
             $phoneNumber = User::role('wakaAsrama')->first()->phoneNumber;
-            $message = "Izin baru telah diajukan oleh " . $this->ijin->user->name . ", dengan keperluan: " . $this->ijin->reason . ". selengkapnya silahkan cek di aplikasi";
+            $message = "Izin baru telah diajukan oleh " . $this->ijin->user->name . ", dengan keperluan: " . $this->ijin->reason . ". dari tanggal " . $this->ijin->date_start . " sampai dengan tanggal " . $this->ijin->date_end . ". Silahkan cek surat izin di website";
 
             $response = Http::post('https://app.whacenter.com/api/send', [
                 'device_id' => $deviceId,
